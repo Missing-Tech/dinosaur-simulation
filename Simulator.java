@@ -145,32 +145,34 @@ public class Simulator {
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
                 if (rand.nextDouble() <= PREDATOR_CREATION_PROBABILITY) {
+                    PredatorFactory predatorFactory = new PredatorFactory();
                     Location location = new Location(row, col);
 
-                    Animal predator;
+                    String predatorType;
 
                     if(rand.nextDouble() <= TREX_CREATION_PROBABILITY){
-                        predator = new TRex (false, field, location);
+                        predatorType = "TREX";
                     } else {
-                        predator = new Velociraptor(false, field, location);
+                        predatorType = "VELOCIRAPTOR";
                     }
 
-                    //predator = new TRex(false, field, location);
-                    
+                    Predator predator = predatorFactory.getPredator(predatorType,field,location);
                     animals.add(predator);
                 } else if (rand.nextDouble() <= PREY_CREATION_PROBABILITY) {
+                    PreyFactory preyFactory = new PreyFactory();
                     Location location = new Location(row, col);
-                    Animal prey;
 
-                    //TODO: Better selection
-                    prey = new Triceratops(false, field, location);
+                    String preyType;
 
-                    // if(rand.nextDouble() <= BRONTOSAURUS_CREATION_PROBABILITY){
-                    //     prey = new Brontosaurus (false, field, location);
-                    // } else if (rand.nextDouble() <= TRICERATOPS_CREATION_PROBABILITY + BRONTOSAURUS_CREATION_PROBABILITY){
-                    //     prey = new Triceratops(false, field, location);
-                    // }
+                    if(rand.nextDouble() <= BRONTOSAURUS_CREATION_PROBABILITY){
+                        preyType = "BRONTOSAURUS";
+                    } else if (rand.nextDouble() <= TRICERATOPS_CREATION_PROBABILITY + BRONTOSAURUS_CREATION_PROBABILITY){
+                        preyType = "TRICERATOPS";
+                    } else {
+                        preyType = "STEGOSAURUS";
+                    }
                     
+                    Prey prey = preyFactory.getPrey(preyType, field, location);
                     animals.add(prey);
                 }
                 // else leave the location empty.
