@@ -1,27 +1,19 @@
 import java.util.List;
 import java.util.Random;
 
-/**
- * A simple model of a rabbit.
- * Rabbits age, move, breed, and die.
- * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
- */
-public class Rabbit extends Animal
-{
-    // Characteristics shared by all rabbits (class variables).
+public abstract class Prey extends Animal {
+   // Characteristics shared by all rabbits (class variables).
 
     // The age at which a rabbit can start to breed.
-    private static final int BREEDING_AGE = 5;
+    private static int BREEDING_AGE;
     // The age to which a rabbit can live.
-    private static final int MAX_AGE = 40;
+    private static int MAX_AGE;
     // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.12;
+    private static double BREEDING_PROBABILITY;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 4;
+    private static int MAX_LITTER_SIZE;
     // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    private static Random rand = Randomizer.getRandom();
     
     // Individual characteristics (instance fields).
     
@@ -36,25 +28,32 @@ public class Rabbit extends Animal
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Rabbit(boolean randomAge, Field field, Location location)
+    public Prey(boolean randomAge, Field field, Location location, int breedingAge, int maxAge, double breedingProb, int maxLitterSize)
     {
         super(field, location);
-        age = 0;
+
+        BREEDING_AGE = breedingAge;
+        MAX_AGE = maxAge;
+        BREEDING_PROBABILITY = breedingProb;
+        MAX_LITTER_SIZE = maxLitterSize;
+        
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
+        } else {
+            age = 0;
         }
     }
     
     /**
      * This is what the rabbit does most of the time - it runs 
      * around. Sometimes it will breed or die of old age.
-     * @param newRabbits A list to return newly born rabbits.
+     * @param newPrey A list to return newly born rabbits.
      */
-    public void act(List<Animal> newRabbits)
+    public void act(List<Animal> newPrey)
     {
         incrementAge();
         if(isAlive()) {
-            giveBirth(newRabbits);            
+            giveBirth(newPrey);            
             // Try to move into a free location.
             Location newLocation = getField().freeAdjacentLocation(getLocation());
             if(newLocation != null) {
@@ -82,9 +81,9 @@ public class Rabbit extends Animal
     /**
      * Check whether or not this rabbit is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param newRabbits A list to return newly born rabbits.
+     * @param newPrey A list to return newly born rabbits.
      */
-    private void giveBirth(List<Animal> newRabbits)
+    private void giveBirth(List<Animal> newPrey)
     {
         // New rabbits are born into adjacent locations.
         // Get a list of adjacent free locations.
@@ -93,8 +92,8 @@ public class Rabbit extends Animal
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Rabbit young = new Rabbit(false, field, loc);
-            newRabbits.add(young);
+            Triceratops young = new Triceratops(false, field, loc);
+            newPrey.add(young);
         }
     }
         
