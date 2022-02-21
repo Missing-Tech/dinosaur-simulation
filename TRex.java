@@ -23,7 +23,7 @@ public class TRex extends Predator
     private static final int MAX_LITTER_SIZE = 1;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
-    private static final int PREY_FOOD_VALUE = 10;
+    private static final int PREY_FOOD_VALUE = 20;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -49,8 +49,7 @@ public class TRex extends Predator
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            //TODO: Implement being able to eat any type of prey
-            if(animal instanceof Triceratops || animal instanceof Stegosaurus) {
+            if(animal instanceof Triceratops || animal instanceof Brontosaurus) {
                 Prey prey = (Prey) animal;
                 if(prey.isAlive()) { 
                     prey.setDead();

@@ -18,12 +18,12 @@ public class Velociraptor extends Predator
     // The age to which a fox can live.
     private static final int MAX_AGE = 50;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.2;
+    private static final double BREEDING_PROBABILITY = 0.08;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 2;
+    private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
-    private static final int PREY_FOOD_VALUE = 10;
+    private static final int PREY_FOOD_VALUE = 15;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -49,8 +49,7 @@ public class Velociraptor extends Predator
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            //TODO: Implement being able to eat any type of prey
-            if(animal instanceof Triceratops || animal instanceof Brontosaurus) {
+            if(animal instanceof Stegosaurus || animal instanceof Triceratops) {
                 Prey prey = (Prey) animal;
                 if(prey.isAlive()) { 
                     prey.setDead();

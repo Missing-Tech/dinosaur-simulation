@@ -13,13 +13,13 @@ public class Triceratops extends Prey
     // Characteristics shared by all rabbits (class variables).
 
     // The age at which a rabbit can start to breed.
-    private static final int BREEDING_AGE = 10;
+    private static final int BREEDING_AGE = 15;
     // The age to which a rabbit can live.
-    private static final int MAX_AGE = 60;
+    private static final int MAX_AGE = 50;
     // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.05;
+    private static final double BREEDING_PROBABILITY = 0.03;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 3;
+    private static final int MAX_LITTER_SIZE = 2;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
