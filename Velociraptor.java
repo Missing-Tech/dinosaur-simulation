@@ -1,3 +1,5 @@
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,9 +16,9 @@ public class Velociraptor extends Predator
     // The age at which a fox can start to breed.
     private static final int BREEDING_AGE = 15;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 100;
+    private static final int MAX_AGE = 50;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.5;
+    private static final double BREEDING_PROBABILITY = 0.2;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
@@ -38,5 +40,29 @@ public class Velociraptor extends Predator
         super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE, PREY_FOOD_VALUE);
     }
     
-    
+    @Override
+    protected Location findFood()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            //TODO: Implement being able to eat any type of prey
+            if(animal instanceof Triceratops || animal instanceof Brontosaurus) {
+                Prey prey = (Prey) animal;
+                if(prey.isAlive()) { 
+                    prey.setDead();
+                    super.foodLevel = PREY_FOOD_VALUE;
+                    return where;
+                }
+            }
+        }
+        return null;
+    }
+
+    protected Velociraptor copyThis(Location loc){
+        return new Velociraptor(false, getField(), loc);
+    }
 }

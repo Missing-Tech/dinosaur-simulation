@@ -92,10 +92,12 @@ public abstract class Prey extends Animal {
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Triceratops young = new Triceratops(false, field, loc);
+            Prey young = copyThis(loc);
             newPrey.add(young);
         }
     }
+
+    protected abstract Prey copyThis(Location loc);
         
     /**
      * Generate a number representing the number of births,

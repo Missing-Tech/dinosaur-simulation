@@ -1,3 +1,5 @@
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -18,10 +20,10 @@ public class TRex extends Predator
     // The likelihood of a fox breeding.
     private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 2;
+    private static final int MAX_LITTER_SIZE = 1;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
-    private static final int PREY_FOOD_VALUE = 15;
+    private static final int PREY_FOOD_VALUE = 10;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -38,5 +40,30 @@ public class TRex extends Predator
         super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE, PREY_FOOD_VALUE);
     }
     
-    
+    @Override
+    protected Location findFood()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            //TODO: Implement being able to eat any type of prey
+            if(animal instanceof Triceratops || animal instanceof Stegosaurus) {
+                Prey prey = (Prey) animal;
+                if(prey.isAlive()) { 
+                    prey.setDead();
+                    super.foodLevel = PREY_FOOD_VALUE;
+                    return where;
+                }
+            }
+        }
+        return null;
+    }
+
+    protected TRex copyThis(Location loc){
+        return new TRex(false, getField(), loc);
+    }
+
 }

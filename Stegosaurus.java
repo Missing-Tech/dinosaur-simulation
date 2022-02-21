@@ -36,5 +36,9 @@ public class Stegosaurus extends Prey
     {
         super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE);
     }
+
+    protected Stegosaurus copyThis(Location loc){
+        return new Stegosaurus(false, getField(), loc);
+    }
     
 }
