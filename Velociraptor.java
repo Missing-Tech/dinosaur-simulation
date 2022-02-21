@@ -61,6 +61,7 @@ public class Velociraptor extends Predator
         return null;
     }
 
+    @Override
     protected Velociraptor copyThis(Location loc){
         return new Velociraptor(false, getField(), loc);
     }

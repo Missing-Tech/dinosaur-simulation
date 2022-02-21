@@ -37,6 +37,7 @@ public class Triceratops extends Prey
         super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE);
     }
     
+    @Override
     protected Triceratops copyThis(Location loc){
         return new Triceratops(false, getField(), loc);
     }

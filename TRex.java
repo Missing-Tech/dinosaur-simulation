@@ -61,6 +61,7 @@ public class TRex extends Predator
         return null;
     }
 
+    @Override
     protected TRex copyThis(Location loc){
         return new TRex(false, getField(), loc);
     }

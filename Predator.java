@@ -104,6 +104,21 @@ public abstract class Predator extends Animal{
      */
     protected Location findFood()
     {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            if(animal instanceof Prey) {
+                Prey rabbit = (Prey) animal;
+                if(rabbit.isAlive()) { 
+                    rabbit.setDead();
+                    foodLevel = PREY_FOOD_VALUE;
+                    return where;
+                }
+            }
+        }
         return null;
     }
     
