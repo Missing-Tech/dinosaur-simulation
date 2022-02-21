@@ -1,3 +1,5 @@
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,14 +16,14 @@ public class Velociraptor extends Predator
     // The age at which a fox can start to breed.
     private static final int BREEDING_AGE = 15;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 100;
+    private static final int MAX_AGE = 50;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.5;
+    private static final double BREEDING_PROBABILITY = 0.08;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 2;
+    private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
-    private static final int PREY_FOOD_VALUE = 10;
+    private static final int PREY_FOOD_VALUE = 15;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -38,5 +40,28 @@ public class Velociraptor extends Predator
         super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE, PREY_FOOD_VALUE);
     }
     
-    
+    @Override
+    protected Location findFood()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            if(animal instanceof Stegosaurus || animal instanceof Triceratops) {
+                Prey prey = (Prey) animal;
+                if(prey.isAlive()) { 
+                    prey.setDead();
+                    super.foodLevel = PREY_FOOD_VALUE;
+                    return where;
+                }
+            }
+        }
+        return null;
+    }
+
+    protected Velociraptor copyThis(Location loc){
+        return new Velociraptor(false, getField(), loc);
+    }
 }

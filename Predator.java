@@ -22,9 +22,9 @@ public abstract class Predator extends Animal{
 
     // Individual characteristics (instance fields).
     // The fox's age.
-    private int age;
+    protected int age;
     // The fox's food level, which is increased by eating rabbits.
-    private int foodLevel;
+    protected int foodLevel;
 
     public Predator(boolean randomAge, Field field, Location location, int breedingAge, int maxAge, double breedingProb, int maxLitterSize, int preyFoodValue) {
         super(field, location);
@@ -50,14 +50,14 @@ public abstract class Predator extends Animal{
      * rabbits. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param field The field currently occupied.
-     * @param newFoxes A list to return newly born foxes.
+     * @param newPredators A list to return newly born foxes.
      */
-    public void act(List<Animal> newFoxes)
+    public void act(List<Animal> newPredators)
     {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-            giveBirth(newFoxes);            
+            giveBirth(newPredators);            
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if(newLocation == null) { 
@@ -102,24 +102,8 @@ public abstract class Predator extends Animal{
      * Only the first live rabbit is eaten.
      * @return Where food was found, or null if it wasn't.
      */
-    private Location findFood()
+    protected Location findFood()
     {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            //TODO: Implement being able to eat any type of prey
-            if(animal instanceof Triceratops) {
-                Triceratops rabbit = (Triceratops) animal;
-                if(rabbit.isAlive()) { 
-                    rabbit.setDead();
-                    foodLevel = PREY_FOOD_VALUE;
-                    return where;
-                }
-            }
-        }
         return null;
     }
     
@@ -137,11 +121,16 @@ public abstract class Predator extends Animal{
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            TRex young = new TRex(false, field, loc);
+            Predator young = copyThis(loc);
             newFoxes.add(young);
         }
     }
-        
+    
+    /**
+     * Provides a function for a subclass to create a copy of itself
+     */
+    protected abstract Predator copyThis(Location loc);
+
     /**
      * Generate a number representing the number of births,
      * if it can breed.

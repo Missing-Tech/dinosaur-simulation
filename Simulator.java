@@ -15,17 +15,17 @@ import java.awt.Color;
 public class Simulator {
     // Constants representing configuration information for the simulation.
     // The default width for the grid.
-    private static final int DEFAULT_WIDTH = 120;
+    private static final int DEFAULT_WIDTH = 100;
     // The default depth of the grid.
-    private static final int DEFAULT_DEPTH = 80;
+    private static final int DEFAULT_DEPTH = 100;
     // The probability that a fox will be created in any given grid position.
     private static final double PREDATOR_CREATION_PROBABILITY = 0.02;
     // The probability that a rabbit will be created in any given grid position.
-    private static final double PREY_CREATION_PROBABILITY = 0.08;
+    private static final double PREY_CREATION_PROBABILITY = 0.1;
 
-    private static final double TREX_CREATION_PROBABILITY = 0.35;
-    private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.15;
-    private static final double TRICERATOPS_CREATION_PROBABILITY = 0.35;
+    private static final double TREX_CREATION_PROBABILITY = 0.2;
+    private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.33;
+    private static final double TRICERATOPS_CREATION_PROBABILITY = 0.6;
 
     // List of animals in the field.
     private List<Animal> animals;
@@ -95,7 +95,7 @@ public class Simulator {
     public void simulate(int numSteps) {
         for (int step = 1; step <= numSteps && view.isViable(field); step++) {
             simulateOneStep();
-            // delay(60); // uncomment this to run more slowly
+            delay(60); // uncomment this to run more slowly
         }
     }
 
@@ -164,11 +164,12 @@ public class Simulator {
 
                     String preyType;
 
+
                     if(rand.nextDouble() <= BRONTOSAURUS_CREATION_PROBABILITY){
                         preyType = "BRONTOSAURUS";
-                    } else if (rand.nextDouble() <= TRICERATOPS_CREATION_PROBABILITY + BRONTOSAURUS_CREATION_PROBABILITY){
+                    } else if (rand.nextDouble() <= TRICERATOPS_CREATION_PROBABILITY){
                         preyType = "TRICERATOPS";
-                    } else {
+                    } else{
                         preyType = "STEGOSAURUS";
                     }
                     
