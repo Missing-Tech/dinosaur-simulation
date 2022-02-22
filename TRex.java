@@ -16,9 +16,9 @@ public class TRex extends Predator
     // The age at which a fox can start to breed.
     private static final int BREEDING_AGE = 15;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 100;
+    private static final int MAX_AGE = 50;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.1;
+    private static final double BREEDING_PROBABILITY = 0.05;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 1;
     // The food value of a single rabbit. In effect, this is the
@@ -49,7 +49,7 @@ public class TRex extends Predator
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Triceratops || animal instanceof Brontosaurus) {
+            if(animal instanceof Stegosaurus || animal instanceof Brontosaurus) {
                 Prey prey = (Prey) animal;
                 if(prey.isAlive()) { 
                     prey.setDead();

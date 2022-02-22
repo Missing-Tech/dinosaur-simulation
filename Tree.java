@@ -6,11 +6,12 @@ public class Tree extends Plant {
     // The age at which a rabbit can start to breed.
     private static final int BREEDING_AGE = 20;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 20;
+    private static final int MAX_AGE = 100;
     // The likelihood of a rabbit breeding.
     private static final double BREEDING_PROBABILITY = 0.01;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 3;
+    private static final int MAX_LITTER_SIZE = 1;
+
     // A shared random number generator to control breeding.
     private static Random rand = Randomizer.getRandom();
     

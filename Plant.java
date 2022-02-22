@@ -59,8 +59,7 @@ public abstract class Plant
         incrementAge();
         if(isAlive()) {
             giveBirth(newPlants);            
-            // Move towards a source of food if found.
-            Location newLocation = getField().freeAdjacentLocation(getLocation());
+            Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
 
             if(newLocation == null) {
                 // Overcrowding.
@@ -90,7 +89,7 @@ public abstract class Plant
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        List<Location> free = field.getFreeAdjacentLocations(getLocation(), false);
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);

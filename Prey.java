@@ -67,7 +67,7 @@ protected int foodLevel;
             Location newLocation = findFood();
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
-                newLocation = getField().freeAdjacentLocation(getLocation());
+                newLocation = getField().freeAdjacentLocation(getLocation(), true);
             }
             // See if it was possible to move.
             if(newLocation != null) {
@@ -102,7 +102,7 @@ protected int foodLevel;
         // New rabbits are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        List<Location> free = field.getFreeAdjacentLocations(getLocation(), true);
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
@@ -137,9 +137,9 @@ protected int foodLevel;
         Iterator<Location> it = adjacent.iterator();
         while(it.hasNext()) {
             Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            if(animal instanceof Plant) {
-                Plant plant = (Plant) animal;
+            Object food = field.getObjectAt(where);
+            if(food instanceof Plant) {
+                Plant plant = (Plant) food;
                 if(plant.isAlive()) { 
                     plant.setDead();
                     foodLevel = PLANT_FOOD_VALUE;

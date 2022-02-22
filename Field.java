@@ -119,18 +119,22 @@ public class Field
      * @param location Get locations adjacent to this.
      * @return A list of free adjacent locations.
      */
-    public List<Location> getFreeAdjacentLocations(Location location)
+    public List<Location> getFreeAdjacentLocations(Location location, boolean canTrample)
     {
         List<Location> free = new LinkedList<>();
         List<Location> adjacent = adjacentLocations(location);
         for(Location next : adjacent) {
-            if(getObjectAt(next) == null) {
+            Object objectAtNext = getObjectAt(next);
+            if(objectAtNext == null || (canTrample && objectAtNext instanceof Plant)) {
                 free.add(next);
             }
         }
         return free;
     }
     
+
+    
+
     /**
      * Try to find a free location that is adjacent to the
      * given location. If there is none, return null.
@@ -139,10 +143,10 @@ public class Field
      * @param location The location from which to generate an adjacency.
      * @return A valid location within the grid area.
      */
-    public Location freeAdjacentLocation(Location location)
+    public Location freeAdjacentLocation(Location location, boolean canTrample)
     {
         // The available free ones.
-        List<Location> free = getFreeAdjacentLocations(location);
+        List<Location> free = getFreeAdjacentLocations(location, canTrample);
         if(free.size() > 0) {
             return free.get(0);
         }
@@ -150,6 +154,7 @@ public class Field
             return null;
         }
     }
+
 
     /**
      * Return a shuffled list of locations adjacent to the given one.
