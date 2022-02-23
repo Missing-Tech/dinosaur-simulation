@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -12,6 +13,9 @@ public abstract class Prey extends Animal {
     private static double BREEDING_PROBABILITY;
     // The maximum number of births.
     private static int MAX_LITTER_SIZE;
+    // The food value of a single rabbit. In effect, this is the
+    // number of steps a fox can go before it has to eat again.
+    private static int PLANT_FOOD_VALUE = 20;
     // A shared random number generator to control breeding.
     private static Random rand = Randomizer.getRandom();
     
@@ -19,7 +23,8 @@ public abstract class Prey extends Animal {
     
     // The rabbit's age.
     private int age;
-
+// The fox's food level, which is increased by eating rabbits.
+protected int foodLevel;
     /**
      * Create a new rabbit. A rabbit may be created with age
      * zero (a new born) or with a random age.
@@ -39,8 +44,11 @@ public abstract class Prey extends Animal {
         
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-        } else {
+            foodLevel = rand.nextInt(PLANT_FOOD_VALUE);
+        }
+        else {
             age = 0;
+            foodLevel = PLANT_FOOD_VALUE;
         }
     }
     
@@ -52,10 +60,16 @@ public abstract class Prey extends Animal {
     public void act(List<Animal> newPrey)
     {
         incrementAge();
+        incrementHunger();
         if(isAlive()) {
             giveBirth(newPrey);            
-            // Try to move into a free location.
-            Location newLocation = getField().freeAdjacentLocation(getLocation());
+            // Move towards a source of food if found.
+            Location newLocation = findFood();
+            if(newLocation == null) { 
+                // No food found - try to move to a free location.
+                newLocation = getField().freeAdjacentLocation(getLocation(), true);
+            }
+            // See if it was possible to move.
             if(newLocation != null) {
                 setLocation(newLocation);
             }
@@ -88,7 +102,7 @@ public abstract class Prey extends Animal {
         // New rabbits are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        List<Location> free = field.getFreeAdjacentLocations(getLocation(), true);
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
@@ -99,6 +113,43 @@ public abstract class Prey extends Animal {
 
     protected abstract Prey copyThis(Location loc);
         
+
+    /**
+     * Make this fox more hungry. This could result in the fox's death.
+     */
+    private void incrementHunger()
+    {
+        foodLevel--;
+        if(foodLevel <= 0) {
+            setDead();
+        }
+    }
+    
+    /**
+     * Look for rabbits adjacent to the current location.
+     * Only the first live rabbit is eaten.
+     * @return Where food was found, or null if it wasn't.
+     */
+    protected Location findFood()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object food = field.getObjectAt(where);
+            if(food instanceof Plant) {
+                Plant plant = (Plant) food;
+                if(plant.isAlive()) { 
+                    plant.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Generate a number representing the number of births,
      * if it can breed.

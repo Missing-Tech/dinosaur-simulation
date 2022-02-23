@@ -18,12 +18,12 @@ public class TRex extends Predator
     // The age to which a fox can live.
     private static final int MAX_AGE = 100;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.1;
+    private static final double BREEDING_PROBABILITY = 0.05;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 1;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
-    private static final int PREY_FOOD_VALUE = 20;
+    private static final int PREY_FOOD_VALUE = 15;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -49,7 +49,7 @@ public class TRex extends Predator
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Triceratops || animal instanceof Brontosaurus) {
+            if(animal instanceof Stegosaurus || animal instanceof Brontosaurus) {
                 Prey prey = (Prey) animal;
                 if(prey.isAlive()) { 
                     prey.setDead();
@@ -61,6 +61,7 @@ public class TRex extends Predator
         return null;
     }
 
+    @Override
     protected TRex copyThis(Location loc){
         return new TRex(false, getField(), loc);
     }

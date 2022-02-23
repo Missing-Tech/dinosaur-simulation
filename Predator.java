@@ -62,7 +62,7 @@ public abstract class Predator extends Animal{
             Location newLocation = findFood();
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
-                newLocation = getField().freeAdjacentLocation(getLocation());
+                newLocation = getField().freeAdjacentLocation(getLocation(), true);
             }
             // See if it was possible to move.
             if(newLocation != null) {
@@ -104,25 +104,40 @@ public abstract class Predator extends Animal{
      */
     protected Location findFood()
     {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            if(animal instanceof Prey) {
+                Prey rabbit = (Prey) animal;
+                if(rabbit.isAlive()) { 
+                    rabbit.setDead();
+                    foodLevel = PREY_FOOD_VALUE;
+                    return where;
+                }
+            }
+        }
         return null;
     }
     
     /**
      * Check whether or not this fox is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param newFoxes A list to return newly born foxes.
+     * @param newPredators A list to return newly born foxes.
      */
-    private void giveBirth(List<Animal> newFoxes)
+    private void giveBirth(List<Animal> newPredators)
     {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        List<Location> free = field.getFreeAdjacentLocations(getLocation(), true);
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Predator young = copyThis(loc);
-            newFoxes.add(young);
+            newPredators.add(young);
         }
     }
     

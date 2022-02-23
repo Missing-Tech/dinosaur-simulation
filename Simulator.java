@@ -15,26 +15,31 @@ import java.awt.Color;
 public class Simulator {
     // Constants representing configuration information for the simulation.
     // The default width for the grid.
-    private static final int DEFAULT_WIDTH = 100;
+    private static final int DEFAULT_WIDTH = 200;
     // The default depth of the grid.
-    private static final int DEFAULT_DEPTH = 100;
+    private static final int DEFAULT_DEPTH = 150;
     // The probability that a fox will be created in any given grid position.
     private static final double PREDATOR_CREATION_PROBABILITY = 0.02;
     // The probability that a rabbit will be created in any given grid position.
-    private static final double PREY_CREATION_PROBABILITY = 0.1;
+    private static final double PREY_CREATION_PROBABILITY = 0.08;
 
     private static final double TREX_CREATION_PROBABILITY = 0.2;
     private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.33;
     private static final double TRICERATOPS_CREATION_PROBABILITY = 0.6;
+    private static final double PLANT_CREATION_PROBABILITY = 0.3;
 
     // List of animals in the field.
     private List<Animal> animals;
+    // List of animals in the field.
+    private List<Plant> plants;
     // The current state of the field.
     private Field field;
     // The current step of the simulation.
     private int step;
     // A graphical view of the simulation.
     private SimulatorView view;
+
+    private static final Color lightGreen = new Color(211, 255, 79);
 
     /**
      * Construct a simulation field with default size.
@@ -64,15 +69,19 @@ public class Simulator {
         }
 
         animals = new ArrayList<>();
+        plants = new ArrayList<>();
         field = new Field(depth, width);
+
+        
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
         view.setColor(Stegosaurus.class, Color.BLUE);
         view.setColor(Triceratops.class, Color.ORANGE);
-        view.setColor(Brontosaurus.class, Color.YELLOW);
-        view.setColor(Velociraptor.class, Color.RED);
-        view.setColor(TRex.class, Color.PINK);
+        view.setColor(Brontosaurus.class, Color.CYAN);
+        view.setColor(Velociraptor.class, Color.MAGENTA);
+        view.setColor(TRex.class, Color.RED);
+        view.setColor(Grass.class, lightGreen);
 
         // Setup a valid starting point.
         reset();
@@ -83,7 +92,7 @@ public class Simulator {
      * (4000 steps).
      */
     public void runLongSimulation() {
-        simulate(4000);
+        simulate(1000);
     }
 
     /**
@@ -121,6 +130,20 @@ public class Simulator {
         // Add the newly born foxes and rabbits to the main lists.
         animals.addAll(newAnimals);
 
+        // Provide space for newborn animals.
+        List<Plant> newPlants = new ArrayList<>();
+        // Let all rabbits act.
+        for (Iterator<Plant> it = plants.iterator(); it.hasNext();) {
+            Plant plant = it.next();
+            plant.grow(newPlants);
+            if (!plant.isAlive()) {
+                it.remove();
+            }
+        }
+
+        // Add the newly born foxes and rabbits to the main lists.
+        plants.addAll(newPlants);
+
         view.showStatus(step, field);
     }
 
@@ -140,10 +163,35 @@ public class Simulator {
      * Randomly populate the field with foxes and rabbits.
      */
     private void populate() {
+        spawnPlants();
+        spawnAnimals();
+    }
+
+    private void spawnPlants(){
         Random rand = Randomizer.getRandom();
         field.clear();
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
+                if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    PlantFactory plantFactory = new PlantFactory();
+
+                    String plantType = "GRASS";
+
+                    Plant plant = plantFactory.getPlant(plantType, field, location);
+                    plants.add(plant);
+                }
+                
+                // else leave the location empty.
+            }
+        }
+    }
+
+    private void spawnAnimals(){
+        Random rand = Randomizer.getRandom();
+        for (int row = 0; row < field.getDepth(); row++) {
+            for (int col = 0; col < field.getWidth(); col++) {
+                
                 if (rand.nextDouble() <= PREDATOR_CREATION_PROBABILITY) {
                     PredatorFactory predatorFactory = new PredatorFactory();
                     Location location = new Location(row, col);
@@ -164,7 +212,6 @@ public class Simulator {
 
                     String preyType;
 
-
                     if(rand.nextDouble() <= BRONTOSAURUS_CREATION_PROBABILITY){
                         preyType = "BRONTOSAURUS";
                     } else if (rand.nextDouble() <= TRICERATOPS_CREATION_PROBABILITY){
@@ -175,11 +222,11 @@ public class Simulator {
                     
                     Prey prey = preyFactory.getPrey(preyType, field, location);
                     animals.add(prey);
-                }
+                } 
+            }
                 // else leave the location empty.
             }
         }
-    }
 
     /**
      * Pause for a given time.
