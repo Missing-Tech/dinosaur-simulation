@@ -4,10 +4,7 @@ public class PlantFactory {
     if(plantType == null){
        return null;
     }		
-    if(plantType.equalsIgnoreCase("TREE")){
-       return new Tree(true, field, location);
-    } 
-    else if (plantType.equalsIgnoreCase("GRASS")){
+    if (plantType.equalsIgnoreCase("GRASS")){
        return new Grass(true, field, location);
     }
     

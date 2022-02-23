@@ -63,7 +63,7 @@ public abstract class Plant
 
             if(newLocation == null) {
                 // Overcrowding.
-                setDead();
+                //setDead();
             }
         }
     }

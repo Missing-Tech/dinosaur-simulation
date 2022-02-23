@@ -6,7 +6,7 @@ public class Grass extends Plant {
     // The age at which a rabbit can start to breed.
     private static final int BREEDING_AGE = 1;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 5;
+    private static final int MAX_AGE = 8;
     // The likelihood of a rabbit breeding.
     private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births.

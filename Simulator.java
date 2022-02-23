@@ -27,7 +27,6 @@ public class Simulator {
     private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.33;
     private static final double TRICERATOPS_CREATION_PROBABILITY = 0.6;
     private static final double PLANT_CREATION_PROBABILITY = 0.3;
-    private static final double TREE_CREATION_PROBABILITY = 0.1;
 
     // List of animals in the field.
     private List<Animal> animals;
@@ -82,7 +81,6 @@ public class Simulator {
         view.setColor(Brontosaurus.class, Color.CYAN);
         view.setColor(Velociraptor.class, Color.MAGENTA);
         view.setColor(TRex.class, Color.RED);
-        view.setColor(Tree.class, Color.BLACK);
         view.setColor(Grass.class, lightGreen);
 
         // Setup a valid starting point.
@@ -179,12 +177,6 @@ public class Simulator {
                     PlantFactory plantFactory = new PlantFactory();
 
                     String plantType = "GRASS";
-
-                    // if(rand.nextDouble() <= TREE_CREATION_PROBABILITY){
-                    //     plantType = "TREE";
-                    // } else {
-                    //     plantType = "GRASS";
-                    // }
 
                     Plant plant = plantFactory.getPlant(plantType, field, location);
                     plants.add(plant);
