@@ -176,7 +176,7 @@ public class Simulator {
                     Location location = new Location(row, col);
                     PlantFactory plantFactory = new PlantFactory();
 
-                    String plantType = "GRASS";
+                    Plants plantType = Plants.GRASS;
 
                     Plant plant = plantFactory.getPlant(plantType, field, location);
                     plants.add(plant);
@@ -196,12 +196,12 @@ public class Simulator {
                     PredatorFactory predatorFactory = new PredatorFactory();
                     Location location = new Location(row, col);
 
-                    String predatorType;
+                    Animals predatorType;
 
                     if(rand.nextDouble() <= TREX_CREATION_PROBABILITY){
-                        predatorType = "TREX";
+                        predatorType = Animals.TREX;
                     } else {
-                        predatorType = "VELOCIRAPTOR";
+                        predatorType = Animals.VELOCIRAPTOR;
                     }
 
                     Predator predator = predatorFactory.getPredator(predatorType,field,location);
@@ -210,14 +210,14 @@ public class Simulator {
                     PreyFactory preyFactory = new PreyFactory();
                     Location location = new Location(row, col);
 
-                    String preyType;
+                    Animals preyType;
 
                     if(rand.nextDouble() <= BRONTOSAURUS_CREATION_PROBABILITY){
-                        preyType = "BRONTOSAURUS";
+                        preyType = Animals.BRONTOSAURUS;
                     } else if (rand.nextDouble() <= TRICERATOPS_CREATION_PROBABILITY){
-                        preyType = "TRICERATOPS";
+                        preyType = Animals.TRICERATOPS;
                     } else{
-                        preyType = "STEGOSAURUS";
+                        preyType = Animals.STEGOSAURUS;
                     }
                     
                     Prey prey = preyFactory.getPrey(preyType, field, location);
