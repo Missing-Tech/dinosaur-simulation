@@ -12,8 +12,6 @@ public abstract class Plant
 {
     // Whether the animal is alive or not.
     private boolean alive;
-    private int growthStage = 0;
-    private int growthPeriod;
     protected int age;
 
     // The age at which a fox can start to breed.
@@ -53,18 +51,10 @@ public abstract class Plant
     }
 
     public void grow(List<Plant> newPlants){
-        // if((age+1 % growthPeriod) == 0){
-        //     growthStage++;
-        // }
         incrementAge();
         if(isAlive()) {
             giveBirth(newPlants);            
             Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
-
-            if(newLocation == null) {
-                // Overcrowding.
-                //setDead();
-            }
         }
     }
 
@@ -135,10 +125,6 @@ public abstract class Plant
         return alive;
     }
 
-    protected int getGrowthStage()
-    {
-        return growthStage;
-    }
 
     /**
      * Indicate that the animal is no longer alive.
