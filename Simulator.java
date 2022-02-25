@@ -15,9 +15,9 @@ import java.awt.Color;
 public class Simulator {
     // Constants representing configuration information for the simulation.
     // The default width for the grid.
-    private static final int DEFAULT_WIDTH = 200;
+    private static final int DEFAULT_WIDTH = 300;
     // The default depth of the grid.
-    private static final int DEFAULT_DEPTH = 150;
+    private static final int DEFAULT_DEPTH = 100;
     // The probability that a fox will be created in any given grid position.
     private static final double PREDATOR_CREATION_PROBABILITY = 0.02;
     // The probability that a rabbit will be created in any given grid position.

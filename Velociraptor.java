@@ -24,8 +24,6 @@ public class Velociraptor extends Predator
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
     private static final int PREY_FOOD_VALUE = 10;
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
 
     /**
      * Create a fox. A fox can be created as a new born (age zero

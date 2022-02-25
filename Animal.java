@@ -60,9 +60,8 @@ public abstract class Animal
      */
     public void act(List<Animal> newAnimals) {
         incrementAge();
-        incrementHunger();
+        incrementHunger();    
         if(isAlive()) {
-                      
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if(newLocation == null) { 
@@ -95,16 +94,16 @@ public abstract class Animal
     {
         age++;
         if(age > MAX_AGE) {
-            //setDead();
+            setDead();
         }
     }
     
 /**
      * Check whether or not this fox is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param newPredators A list to return newly born foxes.
+     * @param newAnimals A list to return newly born foxes.
      */
-    private void giveBirth(List<Animal> newPredators)
+    protected void giveBirth(List<Animal> newAnimals)
     {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
@@ -114,7 +113,7 @@ public abstract class Animal
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Animal young = copyThis(loc);
-            newPredators.add(young);
+            newAnimals.add(young);
         }
     }
 
@@ -148,7 +147,7 @@ public abstract class Animal
     /**
      * Make this fox more hungry. This could result in the fox's death.
      */
-    private void incrementHunger()
+    protected void incrementHunger()
     {
         foodLevel--;
         if(foodLevel <= 0) {

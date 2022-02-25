@@ -33,8 +33,8 @@ public abstract class Predator extends Animal{
     
     
     /**
-     * Look for rabbits adjacent to the current location.
-     * Only the first live rabbit is eaten.
+     * Look for prey adjacent to the current location.
+     * Only the first live prey is eaten.
      * @return Where food was found, or null if it wasn't.
      */
     @Override

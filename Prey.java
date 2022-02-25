@@ -13,9 +13,7 @@ public abstract class Prey extends Animal {
     private static Random rand = Randomizer.getRandom();
     
     // Individual characteristics (instance fields).
-    
-// The fox's food level, which is increased by eating rabbits.
-protected int foodLevel;
+
     /**
      * Create a new rabbit. A rabbit may be created with age
      * zero (a new born) or with a random age.
@@ -45,8 +43,7 @@ protected int foodLevel;
 
     @Override
     protected abstract Prey copyThis(Location loc);
-        
-    
+
     /**
      * Look for rabbits adjacent to the current location.
      * Only the first live rabbit is eaten.
@@ -65,7 +62,7 @@ protected int foodLevel;
                 Plant plant = (Plant) food;
                 if(plant.isAlive()) { 
                     plant.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
+                    super.foodLevel = PLANT_FOOD_VALUE;
                     return where;
                 }
             }

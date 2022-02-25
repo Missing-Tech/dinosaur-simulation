@@ -41,4 +41,5 @@ public class Brontosaurus extends Prey
     protected Brontosaurus copyThis(Location loc){
         return new Brontosaurus(false, getField(), loc);
     }
+    
 }
