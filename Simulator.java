@@ -6,7 +6,7 @@ import java.awt.Color;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
- * containing rabbits and foxes.
+ * containing C and foxes.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
@@ -115,39 +115,40 @@ public class Simulator {
      * fox and rabbit.
      */
     public void simulateOneStep() {
+  
         step++;
         timer.incrementTime();
 
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<>();
-        // Let all rabbits act.
-        for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
-            Animal animal = it.next();
-            if (animal instanceof Velociraptor) {
-                if (timer.getHour() >= 0 && timer.getHour() < 24) {
+        if (timer.getHour() >= 4 && timer.getHour() < 20) {
+            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
+                Animal animal = it.next();
+                if (animal instanceof Predator) {
                     animal.act(newAnimals);
                     if (!animal.isAlive()) {
                         it.remove();
                     }
-                } else {
-
                 }
-            } else {
-                if (timer.getHour() >= 6 && timer.getHour() < 20) {
-                    animal.act(newAnimals);
-                    if (!animal.isAlive()) {
-                        it.remove();
-                    }
-                } else if (animal instanceof Stegosaurus || animal instanceof Triceratops
-                        || animal instanceof Brontosaurus) {
-                }
+        
             }
-
+        }
+        if(timer.getHour() >= 6 && timer.getHour() < 18){
+            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
+                Animal animal = it.next();
+                if (animal instanceof Prey) {
+                    animal.act(newAnimals);
+                    if (!animal.isAlive()) {
+                        it.remove();
+                    }
+                }
+                
+            }
         }
 
         // Add the newly born foxes and rabbits to the main lists.
         animals.addAll(newAnimals);
-
+        view.showStatus(step, field, timer.getTime());
         // Provide space for newborn animals.
         List<Plant> newPlants = new ArrayList<>();
         // Let all rabbits act.
@@ -162,7 +163,7 @@ public class Simulator {
         // Add the newly born foxes and rabbits to the main lists.
         plants.addAll(newPlants);
 
-        view.showStatus(step, field, timer.getTime());
+        
     }
 
     /**
