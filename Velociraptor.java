@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -14,19 +15,20 @@ public class Velociraptor extends Predator
     // Characteristics shared by all foxes (class variables).
     
     // The age at which a fox can start to breed.
-    private static final int BREEDING_AGE = 15;
+    private static final int BREEDING_AGE = 5;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 50;
+    private static final int MAX_AGE = 40;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.08;
+    private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
-    private static final int PREY_FOOD_VALUE = 10;
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    private static final int PREY_FOOD_VALUE = 20;
 
+    private static final int SEARCH_RADIUS = 3;
+
+    protected int age;
     /**
      * Create a fox. A fox can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
@@ -45,6 +47,15 @@ public class Velociraptor extends Predator
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
+        List<Location> nearbyLocations = new ArrayList<>();
+        // Increase search radius by one
+        for (int i = 0; i < SEARCH_RADIUS; i++) {
+            for (Location adjacentLocation : adjacent) {
+                nearbyLocations.addAll(field.adjacentLocations(adjacentLocation));
+            }
+        }
+        
+        adjacent.addAll(nearbyLocations);
         Iterator<Location> it = adjacent.iterator();
         while(it.hasNext()) {
             Location where = it.next();
