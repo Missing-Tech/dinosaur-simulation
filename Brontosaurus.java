@@ -13,11 +13,11 @@ public class Brontosaurus extends Prey
     // Characteristics shared by all rabbits (class variables).
 
     // The age at which a rabbit can start to breed.
-    private static final int BREEDING_AGE = 25;
+    private static final int BREEDING_AGE = 35;
     // The age to which a rabbit can live.
-    private static final int MAX_AGE = 150;
+    private static final int MAX_AGE = 80;
     // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.2;
+    private static final double BREEDING_PROBABILITY = 0.07;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
 
