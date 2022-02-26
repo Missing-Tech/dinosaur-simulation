@@ -1,5 +1,3 @@
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 public abstract class Predator extends Animal{
@@ -23,7 +21,7 @@ public abstract class Predator extends Animal{
 
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-            foodLevel = PREY_FOOD_VALUE;
+            foodLevel = rand.nextInt(PREY_FOOD_VALUE);
         }
         else {
             age = 0;
@@ -40,6 +38,14 @@ public abstract class Predator extends Animal{
     @Override
     protected abstract Location findFood();
     
+    protected void incrementAge()
+    {
+        age++;
+        if(age > MAX_AGE) {
+            setDead();
+        }
+    }
+
     /**
      * Provides a function for a subclass to create a copy of itself
      */

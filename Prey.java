@@ -11,7 +11,6 @@ public abstract class Prey extends Animal {
     private static int PLANT_FOOD_VALUE = 20;
     // A shared random number generator to control breeding.
     private static Random rand = Randomizer.getRandom();
-    
     // Individual characteristics (instance fields).
 
     /**
@@ -33,7 +32,7 @@ public abstract class Prey extends Animal {
         
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-            foodLevel = PLANT_FOOD_VALUE;
+            foodLevel = rand.nextInt(PLANT_FOOD_VALUE);
         }
         else {
             age = 0;
@@ -43,6 +42,14 @@ public abstract class Prey extends Animal {
 
     @Override
     protected abstract Prey copyThis(Location loc);
+
+    protected void incrementAge()
+    {
+        age++;
+        if(age > MAX_AGE) {
+            setDead();
+        }
+    }
 
     /**
      * Look for rabbits adjacent to the current location.

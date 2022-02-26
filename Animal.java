@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -66,7 +67,9 @@ public abstract class Animal
             Location newLocation = findFood();
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
-                newLocation = findMate();
+                if(foodLevel < (foodLevel/2)) {
+                    newLocation = findMate(1);
+                }
                 if(newLocation == null) {
                     newLocation = getField().freeAdjacentLocation(getLocation(), true);
                 } else {
@@ -90,13 +93,7 @@ public abstract class Animal
     /**
      * Increase the age. This could result in the fox's death.
      */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
-    }
+    protected abstract void incrementAge();
     
 /**
      * Check whether or not this fox is to give birth at this step.
@@ -192,10 +189,20 @@ public abstract class Animal
         return location;
     }
     
-    protected Location findMate()
+    protected Location findMate(int searchRadius)
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
+        List<Location> nearbyLocations = new ArrayList<>();
+        // Increase search radius by one
+        for (int i = 0; i < searchRadius; i++) {
+            for (Location adjacentLocation : adjacent) {
+                nearbyLocations.addAll(field.adjacentLocations(adjacentLocation));
+            }
+        }
+        
+        adjacent.addAll(nearbyLocations);
+
         Iterator<Location> it = adjacent.iterator();
         while(it.hasNext()) {
             Location where = it.next();
