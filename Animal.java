@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 /**
  * A class representing shared characteristics of animals.
  * 
@@ -31,8 +33,17 @@ public abstract class Animal {
     // The maximum number of births.
     protected static int MAX_LITTER_SIZE;
 
+    private static final double INFECTED_PROBABILITY = 0.05;
+    private static final double INFECTIVITY = 0.2;
+    private static final double FATALITY_CHANCE = 0.01;
+    private static final int DAYS_TILL_IMMUNE = 10;
+
     protected int age;
     protected int foodLevel;
+
+    private boolean isInfected = false;
+    private boolean isImmune = false;
+    private int daysInfected = 0;
 
     /**
      * Create a new animal at location in field.
@@ -45,10 +56,26 @@ public abstract class Animal {
         this.field = field;
         setLocation(location);
         decideGender();
+
+        if(rand.nextDouble() <= INFECTED_PROBABILITY){
+            isInfected = true;
+        }
     }
 
     private void decideGender() {
         isMale = rand.nextBoolean();
+    }
+
+    public void infect(){
+        isInfected = true;
+    }
+
+    public boolean isInfected(){
+        return isInfected;
+    }
+
+    public boolean isImmune(){
+        return isImmune;
     }
 
     /**
@@ -58,6 +85,7 @@ public abstract class Animal {
      * @param newAnimals A list to receive newly born animals.
      */
     public void act(List<Animal> newAnimals) {
+        handleInfection();
         incrementAge();
         incrementHunger();
         if (isAlive()) {
@@ -121,6 +149,23 @@ public abstract class Animal {
             Location loc = free.remove(0);
             Animal young = copyThis(loc);
             newAnimals.add(young);
+        }
+    }
+
+    private void handleInfection(){
+        if(isInfected && isAlive()){
+            Animal animalToInfect = attemptToInfect();
+            if(animalToInfect != null && rand.nextDouble() <= INFECTIVITY){
+                animalToInfect.infect();
+            }
+            daysInfected++;
+            if(daysInfected >= DAYS_TILL_IMMUNE){
+                isInfected = false;
+                isImmune = true;
+            }
+            if(rand.nextDouble() <= FATALITY_CHANCE){
+                setDead();
+            }
         }
     }
 
@@ -199,7 +244,8 @@ public abstract class Animal {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
         List<Location> nearbyLocations = new ArrayList<>();
-        // Increase search radius by one
+
+        // Increase search radius
         for (int i = 0; i < searchRadius; i++) {
             for (Location adjacentLocation : adjacent) {
                 nearbyLocations.addAll(field.adjacentLocations(adjacentLocation));
@@ -219,6 +265,26 @@ public abstract class Animal {
                     if (animal.isAlive()) {
                         return where;
                     }
+                }
+            }
+        }
+        return null;
+    }
+
+    protected Animal attemptToInfect() {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+
+        Iterator<Location> it = adjacent.iterator();
+        while (it.hasNext()) {
+            Location where = it.next();
+            Object object = field.getObjectAt(where);
+            Animal animal;
+            if (object instanceof Animal) {
+                animal = (Animal) object;
+                // Disease only spreads between the same species
+                if (animal.getClass().equals(this.getClass()) && animal.isAlive() && !animal.isImmune()) {
+                    return animal;
                 }
             }
         }
