@@ -39,7 +39,7 @@ public class Simulator {
     // A graphical view of the simulation.
     private SimulatorView view;
 
-    private Weather weather; 
+    private Weather weather;
 
     private static final Color lightGreen = new Color(211, 255, 79);
 
@@ -74,7 +74,6 @@ public class Simulator {
         plants = new ArrayList<>();
         field = new Field(depth, width);
         weather = new Weather();
-        
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
@@ -123,11 +122,11 @@ public class Simulator {
         // Let all rabbits act.
         for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
             Animal animal = it.next();
-            if(weather.getWeather().equals("FOG") && animal instanceof Predator){
-                if(step % 3 == 0){
+            if (weather.getWeather().equals("FOG") && animal instanceof Predator) {
+                if (step % 3 == 0) {
                     animal.act(newAnimals);
                 }
-            }else{
+            } else {
                 animal.act(newAnimals);
             }
 
@@ -176,7 +175,7 @@ public class Simulator {
         spawnAnimals();
     }
 
-    private void spawnPlants(){
+    private void spawnPlants() {
         Random rand = Randomizer.getRandom();
         field.clear();
         for (int row = 0; row < field.getDepth(); row++) {
@@ -190,30 +189,30 @@ public class Simulator {
                     Plant plant = plantFactory.getPlant(plantType, field, location);
                     plants.add(plant);
                 }
-                
+
                 // else leave the location empty.
             }
         }
     }
 
-    private void spawnAnimals(){
+    private void spawnAnimals() {
         Random rand = Randomizer.getRandom();
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
-                
+
                 if (rand.nextDouble() <= PREDATOR_CREATION_PROBABILITY) {
                     PredatorFactory predatorFactory = new PredatorFactory();
                     Location location = new Location(row, col);
 
                     Animals predatorType;
 
-                    if(rand.nextDouble() <= TREX_CREATION_PROBABILITY){
+                    if (rand.nextDouble() <= TREX_CREATION_PROBABILITY) {
                         predatorType = Animals.TREX;
                     } else {
                         predatorType = Animals.VELOCIRAPTOR;
                     }
 
-                    Predator predator = predatorFactory.getPredator(predatorType,field,location);
+                    Predator predator = predatorFactory.getPredator(predatorType, field, location);
                     animals.add(predator);
                 } else if (rand.nextDouble() <= PREY_CREATION_PROBABILITY) {
                     PreyFactory preyFactory = new PreyFactory();
@@ -221,21 +220,21 @@ public class Simulator {
 
                     Animals preyType;
 
-                    if(rand.nextDouble() <= BRONTOSAURUS_CREATION_PROBABILITY){
+                    if (rand.nextDouble() <= BRONTOSAURUS_CREATION_PROBABILITY) {
                         preyType = Animals.BRONTOSAURUS;
-                    } else if (rand.nextDouble() <= TRICERATOPS_CREATION_PROBABILITY){
+                    } else if (rand.nextDouble() <= TRICERATOPS_CREATION_PROBABILITY) {
                         preyType = Animals.TRICERATOPS;
-                    } else{
+                    } else {
                         preyType = Animals.STEGOSAURUS;
                     }
-                    
+
                     Prey prey = preyFactory.getPrey(preyType, field, location);
                     animals.add(prey);
-                } 
+                }
             }
-                // else leave the location empty.
-            }
+            // else leave the location empty.
         }
+    }
 
     /**
      * Pause for a given time.
