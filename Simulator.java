@@ -27,7 +27,6 @@ public class Simulator {
     private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.1;
     private static final double TRICERATOPS_CREATION_PROBABILITY = 0.6;
     private static final double PLANT_CREATION_PROBABILITY = 0.3;
-    private static int SEARCH_RADIUS;
 
     // List of animals in the field.
     private List<Animal> animals;
@@ -40,9 +39,9 @@ public class Simulator {
     // A graphical view of the simulation.
     private SimulatorView view;
     // The timer for the simulation
-    private Time timer;
+    private static Time timer;
 
-    private Weather weather;
+    private static Weather weather;
 
     private static final Color lightGreen = new Color(211, 255, 79);
 
@@ -57,6 +56,7 @@ public class Simulator {
     {
         Simulator simulator = new Simulator();
         simulator.runLongSimulation();
+
     }
 
     /**
@@ -76,8 +76,8 @@ public class Simulator {
         animals = new ArrayList<>();
         plants = new ArrayList<>();
         field = new Field(depth, width);
-        weather = new Weather();
-        timer = new Time();
+        weather = Weather.getInstance();
+        timer = Time.getInstance();
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
@@ -124,59 +124,31 @@ public class Simulator {
         weather.chooseWeather(step);
         timer.incrementTime();
 
-        checkForFog();
-
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<>();
-        if (timer.getHour() >= 3 && timer.getHour() < 22) {
-            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
-                Animal animal = it.next();
-                if (animal instanceof Predator) {
-                    animal.act(newAnimals, SEARCH_RADIUS);
-                }
-            }
 
+        for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
+            Animal animal = it.next();
+            animal.act(newAnimals);
         }
 
-        if (timer.getHour() >= 4 && timer.getHour() < 20) {
-            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
-                Animal animal = it.next();
-                if (animal instanceof Prey) {
-                    animal.act(newAnimals, SEARCH_RADIUS);
-                    if (!animal.isAlive()) {
-                        it.remove();
-                    }
-                }
-
-            }
-        }
-        if ((timer.getHour() >= 3 && timer.getHour() < 4) || (timer.getHour() >= 20 && timer.getHour() < 22)) {
-            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
-                Animal animal = it.next();
-                if (animal instanceof Prey) {
-                    Prey prey = (Prey) animal;
-                    prey.checkPredator();
-                }
-            }
-        }
-
-        // Add the newly born foxes and rabbits to the main lists.
+        // Add the newly born animals to the main lists.
         animals.addAll(newAnimals);
         // Provide space for newborn animals.
         List<Plant> newPlants = new ArrayList<>();
         // Let all rabbits act.
         for (Iterator<Plant> it = plants.iterator(); it.hasNext();) {
             Plant plant = it.next();
-            plant.grow(newPlants, weather.getWeather());
+            plant.grow(newPlants);
             if (!plant.isAlive()) {
                 it.remove();
             }
         }
 
-        // Add the newly born foxes and rabbits to the main lists.
+        // Add the newly born plants to the main lists.
         plants.addAll(newPlants);
 
-        view.showStatus(step, field, weather.getWeather(), timer.getTime());
+        view.showStatus(step, field);
     }
 
     /**
@@ -189,7 +161,7 @@ public class Simulator {
         populate();
 
         // Show the starting state in the view.
-        view.showStatus(step, field, weather.getWeather(), timer.getTime());
+        view.showStatus(step, field);
     }
 
     /**
@@ -214,7 +186,6 @@ public class Simulator {
                     Plant plant = plantFactory.getPlant(plantType, field, location);
                     plants.add(plant);
                 }
-
                 // else leave the location empty.
             }
         }
@@ -258,14 +229,6 @@ public class Simulator {
                 }
             }
             // else leave the location empty.
-        }
-    }
-
-    public void checkForFog() {
-        if (weather.getWeather().equals("FOG")) {
-            SEARCH_RADIUS = 2;
-        } else {
-            SEARCH_RADIUS = 3;
         }
     }
 

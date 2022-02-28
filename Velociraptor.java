@@ -16,18 +16,18 @@ public class Velociraptor extends Predator {
     // The age at which a fox can start to breed.
     private static final int BREEDING_AGE = 5;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 150;
+    private static final int MAX_AGE = 70;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.5;
+    private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
     private static final int PREY_FOOD_VALUE = 25;
 
-    protected static int SEARCH_RADIUS = 2;
+    protected static int SEARCH_RADIUS = 5;
 
-    protected int age;
+    private static Weather weather;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -40,12 +40,15 @@ public class Velociraptor extends Predator {
     public Velociraptor(boolean randomAge, Field field, Location location) {
         super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE,
                 PREY_FOOD_VALUE);
+        weather = Weather.getInstance();
     }
 
     @Override
     protected Location findFood(int SEARCH_RADIUS) {
+        int searchRadius = weather.getWeather().equals(WeatherType.FOG) ? 1 : SEARCH_RADIUS;
+
         Field field = getField();
-        List<Location> adjacent = findNearbyLocations(SEARCH_RADIUS);
+        List<Location> adjacent = findNearbyLocations(searchRadius);
 
         Iterator<Location> it = adjacent.iterator();
         while (it.hasNext()) {
@@ -55,7 +58,7 @@ public class Velociraptor extends Predator {
                 Prey prey = (Prey) animal;
                 if (prey.isAlive()) {
                     prey.setDead();
-                    super.foodLevel = PREY_FOOD_VALUE;
+                    foodLevel = PREY_FOOD_VALUE;
                     return where;
                 }
             }

@@ -1,6 +1,8 @@
 import java.util.Random;
 
 public class Weather {
+    private static Weather INSTANCE;
+
     private static Random rand = Randomizer.getRandom();
 
     private static final double FOG_PROBABILITY = 0.95;
@@ -13,6 +15,14 @@ public class Weather {
 
     public Weather() {
         weather = WeatherType.CLEAR;
+    }
+
+    public static Weather getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new Weather();
+        }
+        
+        return INSTANCE;
     }
 
     public void chooseWeather(int step) {

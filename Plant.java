@@ -29,6 +29,8 @@ public abstract class Plant {
     // The animal's position in the field.
     private Location location;
 
+    private Weather weather;
+
     /**
      * Create a new animal at location in field.
      * 
@@ -44,17 +46,19 @@ public abstract class Plant {
         BREEDING_PROBABILITY = breedingProb;
         MAX_LITTER_SIZE = maxLitterSize;
 
+        weather = Weather.getInstance();
+
         age = 0;
         setLocation(location);
     }
 
-    public void grow(List<Plant> newPlants, WeatherType weather) {
+    public void grow(List<Plant> newPlants) {
         // if((age+1 % growthPeriod) == 0){
         // growthStage++;
         // }
         incrementAge();
         if (isAlive()) {
-            giveBirth(newPlants, weather);
+            giveBirth(newPlants);
             if (isAlive()) {
 
                 Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
@@ -83,12 +87,12 @@ public abstract class Plant {
      * 
      * @param newPlants A list to return newly born foxes.
      */
-    private void giveBirth(List<Plant> newPlants, WeatherType weather) {
+    private void giveBirth(List<Plant> newPlants) {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation(), false);
-        int births = breed(weather);
+        int births = breed();
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Plant young = copyThis(loc);
@@ -108,7 +112,7 @@ public abstract class Plant {
      * @return The number of births (may be zero).
      */
 
-    private int breed(WeatherType weather) {
+    private int breed() {
         BREEDING_PROBABILITY = 0.15;
 
         if (weather.equals(WeatherType.RAIN)) {

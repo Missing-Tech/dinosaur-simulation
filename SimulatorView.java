@@ -107,7 +107,10 @@ public class SimulatorView extends JFrame {
      * @param field The field whose status is to be displayed.
      */
 
-    public void showStatus(int step, Field field, WeatherType weather, String time) {
+    public void showStatus(int step, Field field) {
+
+        Weather weather = Weather.getInstance();
+        Time timer = Time.getInstance();
 
         if (!isVisible()) {
             setVisible(true);
@@ -115,8 +118,8 @@ public class SimulatorView extends JFrame {
 
         stepLabel.setText(STEP_PREFIX + step);
 
-        weatherLabel.setText(WEATHER_PREFIX + weather);
-        timeLabel.setText(time);
+        weatherLabel.setText(WEATHER_PREFIX + weather.getWeather());
+        timeLabel.setText(timer.getTime());
         stats.reset();
 
         fieldView.preparePaint();
