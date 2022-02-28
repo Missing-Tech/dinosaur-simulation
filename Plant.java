@@ -60,13 +60,12 @@ public abstract class Plant {
                 giveBirth(newPlants);
                 giveBirth(newPlants);
             } else if (weather.equals("HEATWAVE")) {
-
+                incrementAge();
             } else {
                 giveBirth(newPlants);
             }
-            if (getField() == null) {
-                System.out.println("null");
-            } else {
+            if (isAlive()) {
+
                 Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
                 if (newLocation == null) {
                     // Overcrowding.
