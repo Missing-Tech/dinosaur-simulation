@@ -59,7 +59,7 @@ public abstract class Animal {
         setLocation(location);
         decideGender();
 
-        if(rand.nextDouble() <= INFECTED_PROBABILITY){
+        if (rand.nextDouble() <= INFECTED_PROBABILITY) {
             isInfected = true;
         }
     }
@@ -68,15 +68,15 @@ public abstract class Animal {
         isMale = rand.nextBoolean();
     }
 
-    public void infect(){
+    public void infect() {
         isInfected = true;
     }
 
-    public boolean isInfected(){
+    public boolean isInfected() {
         return isInfected;
     }
 
-    public boolean isImmune(){
+    public boolean isImmune() {
         return isImmune;
     }
 
@@ -106,7 +106,7 @@ public abstract class Animal {
             }
 
             if (newLocation == null) {
-                newLocation = findFood(SEARCH_RADIUS);   
+                newLocation = findFood(SEARCH_RADIUS);
             }
 
             // If there's neither food or a mate, then look for a free location to move to
@@ -117,7 +117,7 @@ public abstract class Animal {
             // See if it was possible to move.
             if (newLocation != null) {
                 // Don't move if this animal has found a mate
-                if(!foundMate){
+                if (!foundMate) {
                     setLocation(newLocation);
                 }
             } else {
@@ -154,24 +154,24 @@ public abstract class Animal {
         }
     }
 
-    private void handleInfection(){
-        if(isInfected && isAlive()){
+    private void handleInfection() {
+        if (isInfected && isAlive()) {
             Animal animalToInfect = attemptToInfect();
-            if(animalToInfect != null && rand.nextDouble() <= INFECTIVITY){
+            if (animalToInfect != null && rand.nextDouble() <= INFECTIVITY) {
                 animalToInfect.infect();
             }
             daysInfected++;
-            if(daysInfected >= DAYS_TILL_IMMUNE){
+            if (daysInfected >= DAYS_TILL_IMMUNE) {
                 isInfected = false;
                 isImmune = true;
             }
-            if(rand.nextDouble() <= FATALITY_CHANCE){
+            if (rand.nextDouble() <= FATALITY_CHANCE) {
                 setDead();
             }
         }
     }
 
-    protected List<Location> findNearbyLocations(int searchRadius){
+    protected List<Location> findNearbyLocations(int searchRadius) {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
 
@@ -182,7 +182,7 @@ public abstract class Animal {
                 nearbyLocations.addAll(field.adjacentLocations(adjacentLocation));
             }
         }
-        
+
         adjacent.addAll(nearbyLocations);
 
         return adjacent;

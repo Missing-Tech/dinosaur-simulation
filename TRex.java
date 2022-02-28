@@ -24,7 +24,7 @@ public class TRex extends Predator {
     // number of steps a fox can go before it has to eat again.
     private static final int PREY_FOOD_VALUE = 20;
 
-    private static final int SEARCH_RADIUS = 3;
+    protected static final int SEARCH_RADIUS = 3;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
