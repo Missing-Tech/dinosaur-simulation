@@ -54,7 +54,7 @@ public abstract class Plant {
         // }
         incrementAge();
         if (isAlive()) {
-                giveBirth(newPlants, weather);
+            giveBirth(newPlants, weather);
             if (isAlive()) {
 
                 Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
@@ -109,13 +109,12 @@ public abstract class Plant {
      */
 
     private int breed(String weather) {
+        BREEDING_PROBABILITY = 0.15;
 
         if (weather.equals("RAIN")) {
-            BREEDING_PROBABILITY = 0.5;
+            BREEDING_PROBABILITY *= 1.3;
         } else if (weather.equals("HEATWAVE")) {
-            BREEDING_PROBABILITY = 0.07;
-        } else {
-            BREEDING_PROBABILITY = 0.15;
+            BREEDING_PROBABILITY *= 0.4;
         }
 
         int births = 0;
@@ -123,7 +122,6 @@ public abstract class Plant {
         if (canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
-        
         return births;
     }
 

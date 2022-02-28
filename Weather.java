@@ -5,9 +5,9 @@ public class Weather {
 
     private static final double FOG_PROBABILITY = 0.95;
 
-    private static final double RAIN_PROBABILITY = 0.9;
+    private static final double RAIN_PROBABILITY = 0.85;
 
-    private static final double NORMAL_PROBABILITY = 0.8;
+    private static final double NORMAL_PROBABILITY = 0.7;
 
     public String weather;
 
@@ -16,7 +16,7 @@ public class Weather {
     }
 
     public void chooseWeather(int step) {
-        if(step % 5 == 0) {
+        if(step % 3 == 0) {
             double randomNumber = rand.nextDouble();
             if (randomNumber <= NORMAL_PROBABILITY) {
                 weather = "NORMAL";
