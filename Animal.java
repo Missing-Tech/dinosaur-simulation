@@ -1,8 +1,10 @@
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
@@ -169,6 +171,23 @@ public abstract class Animal {
         }
     }
 
+    protected List<Location> findNearbyLocations(int searchRadius){
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+
+        Set<Location> nearbyLocations = new HashSet<>();
+        // Increase search radius by one
+        for (int i = 0; i < searchRadius; i++) {
+            for (Location adjacentLocation : adjacent) {
+                nearbyLocations.addAll(field.adjacentLocations(adjacentLocation));
+            }
+        }
+        
+        adjacent.addAll(nearbyLocations);
+
+        return adjacent;
+    }
+
     /**
      * Provides a function for a subclass to create a copy of itself
      */
@@ -241,18 +260,7 @@ public abstract class Animal {
     }
 
     protected Location findMate(int searchRadius) {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        List<Location> nearbyLocations = new ArrayList<>();
-
-        // Increase search radius
-        for (int i = 0; i < searchRadius; i++) {
-            for (Location adjacentLocation : adjacent) {
-                nearbyLocations.addAll(field.adjacentLocations(adjacentLocation));
-            }
-        }
-
-        adjacent.addAll(nearbyLocations);
+        List<Location> adjacent = findNearbyLocations(searchRadius);
 
         Iterator<Location> it = adjacent.iterator();
         while (it.hasNext()) {

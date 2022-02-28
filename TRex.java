@@ -42,18 +42,8 @@ public class TRex extends Predator {
     @Override
     protected Location findFood() {
         Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
+        List<Location> adjacent = findNearbyLocations(SEARCH_RADIUS);
 
-        List<Location> nearbyLocations = new ArrayList<>();
-        // Increase search radius by one
-        for (int i = 0; i < SEARCH_RADIUS; i++) {
-            for (Location adjacentLocation : adjacent) {
-                nearbyLocations.addAll(field.adjacentLocations(adjacentLocation));
-            }
-        }
-        
-        adjacent.addAll(nearbyLocations);
-        
         Iterator<Location> it = adjacent.iterator();
         while (it.hasNext()) {
             Location where = it.next();
