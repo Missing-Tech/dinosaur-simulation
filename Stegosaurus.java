@@ -15,15 +15,13 @@ public class Stegosaurus extends Prey
     // The age at which a rabbit can start to breed.
     private static final int BREEDING_AGE = 10;
     // The age to which a rabbit can live.
-    private static final int MAX_AGE = 40;
+    private static final int MAX_AGE = 70;
     // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.1;
+    private static final double BREEDING_PROBABILITY = 0.2;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
 
-
+    protected int age;
     /**
      * Create a new rabbit. A rabbit may be created with age
      * zero (a new born) or with a random age.

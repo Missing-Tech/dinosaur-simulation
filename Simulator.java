@@ -6,7 +6,7 @@ import java.awt.Color;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
- * containing rabbits and foxes.
+ * containing C and foxes.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
@@ -17,14 +17,14 @@ public class Simulator {
     // The default width for the grid.
     private static final int DEFAULT_WIDTH = 200;
     // The default depth of the grid.
-    private static final int DEFAULT_DEPTH = 150;
+    private static final int DEFAULT_DEPTH = 100;
     // The probability that a fox will be created in any given grid position.
-    private static final double PREDATOR_CREATION_PROBABILITY = 0.02;
+    private static final double PREDATOR_CREATION_PROBABILITY = 0.04;
     // The probability that a rabbit will be created in any given grid position.
-    private static final double PREY_CREATION_PROBABILITY = 0.08;
+    private static final double PREY_CREATION_PROBABILITY = 0.06;
 
-    private static final double TREX_CREATION_PROBABILITY = 0.2;
-    private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.33;
+    private static final double TREX_CREATION_PROBABILITY = 0.5;
+    private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.1;
     private static final double TRICERATOPS_CREATION_PROBABILITY = 0.6;
     private static final double PLANT_CREATION_PROBABILITY = 0.3;
 
@@ -38,6 +38,8 @@ public class Simulator {
     private int step;
     // A graphical view of the simulation.
     private SimulatorView view;
+    // The timer for the simulation
+    private Time timer;
 
     private Weather weather;
 
@@ -73,7 +75,11 @@ public class Simulator {
         animals = new ArrayList<>();
         plants = new ArrayList<>();
         field = new Field(depth, width);
+<<<<<<< HEAD
         weather = new Weather();
+=======
+        timer = new Time();
+>>>>>>> 8dbe4242ca4abc39d397f750142dfae0b0ee7b48
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
@@ -115,7 +121,9 @@ public class Simulator {
      * fox and rabbit.
      */
     public void simulateOneStep() {
+
         step++;
+<<<<<<< HEAD
         weather.chooseWeather();
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<>();
@@ -132,12 +140,49 @@ public class Simulator {
 
             if (!animal.isAlive()) {
                 it.remove();
+=======
+        timer.incrementTime();
+
+        // Provide space for newborn animals.
+        List<Animal> newAnimals = new ArrayList<>();
+        if (timer.getHour() >= 4 && timer.getHour() < 20) {
+            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
+                Animal animal = it.next();
+                if (animal instanceof Predator) {
+                    animal.act(newAnimals);
+                    if (!animal.isAlive()) {
+                        it.remove();
+                    }
+                }
+
+            }
+        }
+        if (timer.getHour() >= 6 && timer.getHour() < 18) {
+            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
+                Animal animal = it.next();
+                if (animal instanceof Prey) {
+                    animal.act(newAnimals);
+                    if (!animal.isAlive()) {
+                        it.remove();
+                    }
+                }
+
+            }
+        }
+        if ((timer.getHour() >= 4 && timer.getHour() < 6) || (timer.getHour() >= 18 && timer.getHour() < 20)) {
+            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
+                Animal animal = it.next();
+                if (animal instanceof Prey) {
+                    Prey prey = (Prey) animal;
+                    prey.checkPredator();
+                }
+
+>>>>>>> 8dbe4242ca4abc39d397f750142dfae0b0ee7b48
             }
         }
 
         // Add the newly born foxes and rabbits to the main lists.
         animals.addAll(newAnimals);
-
         // Provide space for newborn animals.
         List<Plant> newPlants = new ArrayList<>();
         // Let all rabbits act.
@@ -152,7 +197,12 @@ public class Simulator {
         // Add the newly born foxes and rabbits to the main lists.
         plants.addAll(newPlants);
 
+<<<<<<< HEAD
         view.showStatus(step, field, weather.getWeather());
+=======
+        view.showStatus(step, field, timer.getTime());
+
+>>>>>>> 8dbe4242ca4abc39d397f750142dfae0b0ee7b48
     }
 
     /**
@@ -161,10 +211,15 @@ public class Simulator {
     public void reset() {
         step = 0;
         animals.clear();
+        timer.resetTime();
         populate();
 
         // Show the starting state in the view.
+<<<<<<< HEAD
         view.showStatus(step, field, weather.getWeather());
+=======
+        view.showStatus(step, field, timer.getTime());
+>>>>>>> 8dbe4242ca4abc39d397f750142dfae0b0ee7b48
     }
 
     /**

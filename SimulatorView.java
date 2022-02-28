@@ -23,8 +23,10 @@ public class SimulatorView extends JFrame {
 
     private final String STEP_PREFIX = "Step: ";
     private final String POPULATION_PREFIX = "Population: ";
+
     private final String WEATHER_PREFIX = "Weather: ";
-    private JLabel stepLabel, population, infoLabel, weatherLabel;
+    private JLabel stepLabel, population, infoLabel, weatherLabel, timeLabel;
+
     private FieldView fieldView;
 
     // A map for storing colors for participants in the simulation
@@ -47,6 +49,8 @@ public class SimulatorView extends JFrame {
         infoLabel = new JLabel("  ", JLabel.CENTER);
         weatherLabel = new JLabel(WEATHER_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
+        timeLabel = new JLabel("", JLabel.CENTER);
+
 
         setLocation(100, 50);
 
@@ -58,6 +62,8 @@ public class SimulatorView extends JFrame {
         infoPane.add(stepLabel, BorderLayout.WEST);
         infoPane.add(infoLabel, BorderLayout.CENTER);
         infoPane.add(weatherLabel, BorderLayout.NORTH);
+        infoPane.add(timeLabel, BorderLayout.EAST);
+
         contents.add(infoPane, BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
@@ -101,24 +107,36 @@ public class SimulatorView extends JFrame {
      * @param step  Which iteration step it is.
      * @param field The field whose status is to be displayed.
      */
-    public void showStatus(int step, Field field, String weather) {
+
+    public void showStatus(int step, Field field, String weather, String time) {
+
         if (!isVisible()) {
             setVisible(true);
         }
 
         stepLabel.setText(STEP_PREFIX + step);
+
         weatherLabel.setText(WEATHER_PREFIX + weather);
+        timeLabel.setText(time);
         stats.reset();
 
         fieldView.preparePaint();
 
-        for (int row = 0; row < field.getDepth(); row++) {
-            for (int col = 0; col < field.getWidth(); col++) {
-                Object animal = field.getObjectAt(row, col);
-                if (animal != null) {
-                    stats.incrementCount(animal.getClass());
-                    fieldView.drawMark(col, row, getColor(animal.getClass()));
-                } else {
+        for(int row = 0; row < field.getDepth(); row++) {
+            for(int col = 0; col < field.getWidth(); col++) {
+                Object object = field.getObjectAt(row, col);
+                if(object != null) {
+                    stats.incrementCount(object.getClass());
+                    fieldView.drawMark(col, row, getColor(object.getClass()));
+                    // Draw the animal as grey if it is currently infected
+                    if(object instanceof Animal ){
+                        Animal animal = (Animal) object;
+                        if(animal.isInfected()){
+                            fieldView.drawMark(col, row, UNKNOWN_COLOR);
+                        }
+                    }
+                }
+                else {
                     fieldView.drawMark(col, row, EMPTY_COLOR);
                 }
             }
