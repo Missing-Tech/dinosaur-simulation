@@ -39,6 +39,8 @@ public class Simulator {
     // A graphical view of the simulation.
     private SimulatorView view;
 
+    private Weather weather; 
+
     private static final Color lightGreen = new Color(211, 255, 79);
 
     /**
@@ -71,7 +73,7 @@ public class Simulator {
         animals = new ArrayList<>();
         plants = new ArrayList<>();
         field = new Field(depth, width);
-
+        weather = new Weather();
         
 
         // Create a view of the state of each location in the field.
@@ -115,13 +117,20 @@ public class Simulator {
      */
     public void simulateOneStep() {
         step++;
-
+        weather.chooseWeather();
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<>();
         // Let all rabbits act.
         for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
             Animal animal = it.next();
-            animal.act(newAnimals);
+            if(weather.getWeather().equals("FOG") && animal instanceof Predator){
+                if(step % 3 == 0){
+                    animal.act(newAnimals);
+                }
+            }else{
+                animal.act(newAnimals);
+            }
+
             if (!animal.isAlive()) {
                 it.remove();
             }
@@ -135,7 +144,7 @@ public class Simulator {
         // Let all rabbits act.
         for (Iterator<Plant> it = plants.iterator(); it.hasNext();) {
             Plant plant = it.next();
-            plant.grow(newPlants);
+            plant.grow(newPlants, weather.getWeather());
             if (!plant.isAlive()) {
                 it.remove();
             }
@@ -144,7 +153,7 @@ public class Simulator {
         // Add the newly born foxes and rabbits to the main lists.
         plants.addAll(newPlants);
 
-        view.showStatus(step, field);
+        view.showStatus(step, field, weather.getWeather());
     }
 
     /**
@@ -156,7 +165,7 @@ public class Simulator {
         populate();
 
         // Show the starting state in the view.
-        view.showStatus(step, field);
+        view.showStatus(step, field, weather.getWeather());
     }
 
     /**

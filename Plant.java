@@ -52,19 +52,30 @@ public abstract class Plant
         setLocation(location);
     }
 
-    public void grow(List<Plant> newPlants){
+    public void grow(List<Plant> newPlants, String weather){
         // if((age+1 % growthPeriod) == 0){
         //     growthStage++;
         // }
         incrementAge();
         if(isAlive()) {
-            giveBirth(newPlants);            
-            Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
-
-            if(newLocation == null) {
-                // Overcrowding.
-                //setDead();
+            if(weather.equals("RAIN")){
+                giveBirth(newPlants);
+                giveBirth(newPlants);
+            }else if(weather.equals("HEATWAVE")){
+                
+            }else{
+                giveBirth(newPlants);
             }
+            if(getField() == null){
+                System.out.println("null");
+            }else{
+                Location newLocation = getField().freeAdjacentLocation(getLocation(), false);   
+                if(newLocation == null) {
+                    // Overcrowding.
+                    //setDead();
+                }
+            }
+          
         }
     }
 
