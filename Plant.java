@@ -55,12 +55,11 @@ public abstract class Plant {
         incrementAge();
         if (isAlive()) {
             if (weather.equals("RAIN")) {
-                giveBirth(newPlants);
-                giveBirth(newPlants);
+                giveBirth(newPlants, 0.4);
             } else if (weather.equals("HEATWAVE")) {
-               
+               giveBirth(newPlants, 0.07);
             } else {
-                giveBirth(newPlants);
+                giveBirth(newPlants, BREEDING_PROBABILITY);
             }
             if (isAlive()) {
 
@@ -90,12 +89,12 @@ public abstract class Plant {
      * 
      * @param newPlants A list to return newly born foxes.
      */
-    private void giveBirth(List<Plant> newPlants) {
+    private void giveBirth(List<Plant> newPlants, double breedingProbability) {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation(), false);
-        int births = breed();
+        int births = breed(breedingProbability);
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Plant young = copyThis(loc);
@@ -115,9 +114,9 @@ public abstract class Plant {
      * @return The number of births (may be zero).
      */
 
-    private int breed() {
+    private int breed(double breedingProbability) {
         int births = 0;
-        if (canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
+        if (canBreed() && rand.nextDouble() <= breedingProbability) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
