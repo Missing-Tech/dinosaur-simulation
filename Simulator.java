@@ -129,7 +129,7 @@ public class Simulator {
 
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<>();
-        if (timer.getHour() >= 4 && timer.getHour() < 20) {
+        if (timer.getHour() >= 3 && timer.getHour() < 22) {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
                 if (animal instanceof Predator) {
@@ -139,7 +139,7 @@ public class Simulator {
 
         }
 
-        if (timer.getHour() >= 6 && timer.getHour() < 18) {
+        if (timer.getHour() >= 4 && timer.getHour() < 20) {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
                 if (animal instanceof Prey) {
@@ -151,7 +151,7 @@ public class Simulator {
 
             }
         }
-        if ((timer.getHour() >= 4 && timer.getHour() < 6) || (timer.getHour() >= 18 && timer.getHour() < 20)) {
+        if ((timer.getHour() >= 3 && timer.getHour() < 4) || (timer.getHour() >= 20 && timer.getHour() < 22)) {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
                 if (animal instanceof Prey) {
