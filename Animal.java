@@ -40,6 +40,8 @@ public abstract class Animal {
     private static final double FATALITY_CHANCE = 0.01;
     private static final int DAYS_TILL_IMMUNE = 10;
 
+    private static Time timer;
+
     protected int age;
     protected int foodLevel;
 
@@ -58,6 +60,8 @@ public abstract class Animal {
         this.field = field;
         setLocation(location);
         decideGender();
+
+        timer = Time.getInstance();
 
         if (rand.nextDouble() <= INFECTED_PROBABILITY) {
             isInfected = true;
@@ -86,9 +90,16 @@ public abstract class Animal {
      * 
      * @param newAnimals A list to receive newly born animals.
      */
-    public void act(List<Animal> newAnimals, int SEARCH_RADIUS) {
-        handleInfection();
+    public void act(List<Animal> newAnimals) {
         incrementAge();
+        handleInfection();
+        if(timer.isNight() && !(this instanceof Predator))
+            if(this instanceof Prey){
+                Prey prey = (Prey)this;
+                if(!prey.checkForPredators())
+                    return; 
+            }
+
         incrementHunger();
         if (isAlive()) {
             // Move towards a source of food if found.
@@ -106,7 +117,7 @@ public abstract class Animal {
             }
 
             if (newLocation == null) {
-                newLocation = findFood(SEARCH_RADIUS);
+                newLocation = findFood(0);
             }
 
             // If there's neither food or a mate, then look for a free location to move to

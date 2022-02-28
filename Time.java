@@ -6,10 +6,20 @@
  */
 
 public class Time {
+    private static Time INSTANCE;
+
     // The components needed to display the digital clock.
     int seconds;
     int minutes;
     int hours;
+
+    public static Time getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new Time();
+        }
+        
+        return INSTANCE;
+    }
 
     public Time() {
         // Seconds, Minutes and Hours set to 0 at the start.
@@ -93,5 +103,9 @@ public class Time {
         seconds = 0;
         minutes = 0;
         hours = 0;
+    }
+
+    public boolean isNight(){
+        return (hours < 6 || hours > 22);
     }
 }
