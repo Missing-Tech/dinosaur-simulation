@@ -7,30 +7,30 @@ public class Weather {
 
     private static final double RAIN_PROBABILITY = 0.85;
 
-    private static final double NORMAL_PROBABILITY = 0.7;
+    private static final double CLEAR_PROBABILITY = 0.7;
 
-    public String weather;
+    public WeatherType weather;
 
     public Weather() {
-        weather = "NORMAL";
+        weather = WeatherType.CLEAR;
     }
 
     public void chooseWeather(int step) {
         if (step % 3 == 0) {
             double randomNumber = rand.nextDouble();
-            if (randomNumber <= NORMAL_PROBABILITY) {
-                weather = "NORMAL";
+            if (randomNumber <= CLEAR_PROBABILITY) {
+                weather = WeatherType.CLEAR;
             } else if (randomNumber <= RAIN_PROBABILITY) {
-                weather = "RAIN";
+                weather = WeatherType.RAIN;
             } else if (randomNumber <= FOG_PROBABILITY) {
-                weather = "FOG";
+                weather = WeatherType.FOG;
             } else {
-                weather = "HEATWAVE";
+                weather = WeatherType.HEATWAVE;
             }
         }
     }
 
-    public String getWeather() {
+    public WeatherType getWeather() {
         return weather;
     }
 

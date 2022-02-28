@@ -107,7 +107,7 @@ public class SimulatorView extends JFrame {
      * @param field The field whose status is to be displayed.
      */
 
-    public void showStatus(int step, Field field, String weather, String time) {
+    public void showStatus(int step, Field field, WeatherType weather, String time) {
 
         if (!isVisible()) {
             setVisible(true);

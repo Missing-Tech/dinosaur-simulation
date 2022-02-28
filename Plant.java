@@ -48,7 +48,7 @@ public abstract class Plant {
         setLocation(location);
     }
 
-    public void grow(List<Plant> newPlants, String weather) {
+    public void grow(List<Plant> newPlants, WeatherType weather) {
         // if((age+1 % growthPeriod) == 0){
         // growthStage++;
         // }
@@ -83,7 +83,7 @@ public abstract class Plant {
      * 
      * @param newPlants A list to return newly born foxes.
      */
-    private void giveBirth(List<Plant> newPlants, String weather) {
+    private void giveBirth(List<Plant> newPlants, WeatherType weather) {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
@@ -108,12 +108,12 @@ public abstract class Plant {
      * @return The number of births (may be zero).
      */
 
-    private int breed(String weather) {
+    private int breed(WeatherType weather) {
         BREEDING_PROBABILITY = 0.15;
 
-        if (weather.equals("RAIN")) {
+        if (weather.equals(WeatherType.RAIN)) {
             BREEDING_PROBABILITY *= 1.3;
-        } else if (weather.equals("HEATWAVE")) {
+        } else if (weather.equals(WeatherType.HEATWAVE)) {
             BREEDING_PROBABILITY *= 0.4;
         }
 
