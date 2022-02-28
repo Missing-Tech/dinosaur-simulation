@@ -51,7 +51,6 @@ public class SimulatorView extends JFrame {
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
         timeLabel = new JLabel("", JLabel.CENTER);
 
-
         setLocation(100, 50);
 
         fieldView = new FieldView(height, width);
@@ -122,21 +121,20 @@ public class SimulatorView extends JFrame {
 
         fieldView.preparePaint();
 
-        for(int row = 0; row < field.getDepth(); row++) {
-            for(int col = 0; col < field.getWidth(); col++) {
+        for (int row = 0; row < field.getDepth(); row++) {
+            for (int col = 0; col < field.getWidth(); col++) {
                 Object object = field.getObjectAt(row, col);
-                if(object != null) {
+                if (object != null) {
                     stats.incrementCount(object.getClass());
                     fieldView.drawMark(col, row, getColor(object.getClass()));
                     // Draw the animal as grey if it is currently infected
-                    if(object instanceof Animal ){
+                    if (object instanceof Animal) {
                         Animal animal = (Animal) object;
-                        if(animal.isInfected()){
+                        if (animal.isInfected()) {
                             fieldView.drawMark(col, row, UNKNOWN_COLOR);
                         }
                     }
-                }
-                else {
+                } else {
                     fieldView.drawMark(col, row, EMPTY_COLOR);
                 }
             }

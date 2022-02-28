@@ -16,7 +16,7 @@ public class Weather {
     }
 
     public void chooseWeather(int step) {
-        if(step % 3 == 0) {
+        if (step % 3 == 0) {
             double randomNumber = rand.nextDouble();
             if (randomNumber <= NORMAL_PROBABILITY) {
                 weather = "NORMAL";

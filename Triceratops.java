@@ -8,8 +8,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
  */
-public class Triceratops extends Prey
-{
+public class Triceratops extends Prey {
     // Characteristics shared by all Triceratops' (class variables).
 
     // The age at which a rabbit can start to breed.
@@ -17,26 +16,24 @@ public class Triceratops extends Prey
     // The age to which a rabbit can live.
     private static final int MAX_AGE = 60;
     // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.2;
+    private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
-
 
     /**
      * Create a new Triceratops. A Triceratops may be created with age
      * zero (a new born) or with a random age.
      * 
      * @param randomAge If true, the Triceratops will have a random age.
-     * @param field The field currently occupied.
-     * @param location The location within the field.
+     * @param field     The field currently occupied.
+     * @param location  The location within the field.
      */
-    public Triceratops(boolean randomAge, Field field, Location location)
-    {
+    public Triceratops(boolean randomAge, Field field, Location location) {
         super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE);
     }
-    
+
     @Override
-    protected Triceratops copyThis(Location loc){
+    protected Triceratops copyThis(Location loc) {
         return new Triceratops(false, getField(), loc);
     }
 }

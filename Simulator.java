@@ -19,16 +19,15 @@ public class Simulator {
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 100;
     // The probability that a fox will be created in any given grid position.
-    private static final double PREDATOR_CREATION_PROBABILITY = 0.04;
+    private static final double PREDATOR_CREATION_PROBABILITY = 0.015;
     // The probability that a rabbit will be created in any given grid position.
-    private static final double PREY_CREATION_PROBABILITY = 0.06;
+    private static final double PREY_CREATION_PROBABILITY = 0.1;
 
     private static final double TREX_CREATION_PROBABILITY = 0.5;
     private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.1;
     private static final double TRICERATOPS_CREATION_PROBABILITY = 0.6;
     private static final double PLANT_CREATION_PROBABILITY = 0.3;
     private static int SEARCH_RADIUS;
-
 
     // List of animals in the field.
     private List<Animal> animals;
@@ -125,7 +124,7 @@ public class Simulator {
         weather.chooseWeather(step);
         timer.incrementTime();
 
-       checkForFog();
+        checkForFog();
 
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<>();
@@ -133,7 +132,7 @@ public class Simulator {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
                 if (animal instanceof Predator) {
-                    animal.act(newAnimals,SEARCH_RADIUS);
+                    animal.act(newAnimals, SEARCH_RADIUS);
                 }
             }
 
@@ -262,10 +261,10 @@ public class Simulator {
         }
     }
 
-    public void checkForFog(){
-        if(weather.getWeather().equals("FOG")){
+    public void checkForFog() {
+        if (weather.getWeather().equals("FOG")) {
             SEARCH_RADIUS = 2;
-        }else{
+        } else {
             SEARCH_RADIUS = 3;
         }
     }

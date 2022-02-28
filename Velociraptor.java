@@ -10,14 +10,13 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
  */
-public class Velociraptor extends Predator
-{
+public class Velociraptor extends Predator {
     // Characteristics shared by all foxes (class variables).
-    
+
     // The age at which a fox can start to breed.
     private static final int BREEDING_AGE = 5;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 40;
+    private static final int MAX_AGE = 80;
     // The likelihood of a fox breeding.
     private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births.
@@ -26,35 +25,35 @@ public class Velociraptor extends Predator
     // number of steps a fox can go before it has to eat again.
     private static final int PREY_FOOD_VALUE = 20;
 
-    private static int SEARCH_RADIUS = 3;
+    protected static int SEARCH_RADIUS = 3;
 
     protected int age;
+
     /**
      * Create a fox. A fox can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      * 
      * @param randomAge If true, the fox will have random age and hunger level.
-     * @param field The field currently occupied.
-     * @param location The location within the field.
+     * @param field     The field currently occupied.
+     * @param location  The location within the field.
      */
-    public Velociraptor(boolean randomAge, Field field, Location location)
-    {
-        super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE, PREY_FOOD_VALUE);
+    public Velociraptor(boolean randomAge, Field field, Location location) {
+        super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE,
+                PREY_FOOD_VALUE);
     }
-    
+
     @Override
-    protected Location findFood(int SEARCH_RADIUS)
-    {
+    protected Location findFood(int SEARCH_RADIUS) {
         Field field = getField();
         List<Location> adjacent = findNearbyLocations(SEARCH_RADIUS);
-        
+
         Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Stegosaurus || animal instanceof Triceratops) {
+            if (animal instanceof Stegosaurus || animal instanceof Triceratops) {
                 Prey prey = (Prey) animal;
-                if(prey.isAlive()) { 
+                if (prey.isAlive()) {
                     prey.setDead();
                     super.foodLevel = PREY_FOOD_VALUE;
                     return where;
@@ -65,7 +64,7 @@ public class Velociraptor extends Predator
     }
 
     @Override
-    protected Velociraptor copyThis(Location loc){
+    protected Velociraptor copyThis(Location loc) {
         return new Velociraptor(false, getField(), loc);
     }
 }

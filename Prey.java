@@ -5,7 +5,6 @@ import java.util.Random;
 public abstract class Prey extends Animal {
     // Characteristics shared by all rabbits (class variables).
 
-    
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
     private static int PLANT_FOOD_VALUE = 20;
@@ -41,8 +40,7 @@ public abstract class Prey extends Animal {
     @Override
     protected abstract Prey copyThis(Location loc);
 
-    protected void incrementAge()
-    {
+    protected void incrementAge() {
         age++;
         if (age > MAX_AGE) {
             setDead();
@@ -56,8 +54,7 @@ public abstract class Prey extends Animal {
      * @return Where food was found, or null if it wasn't.
      */
     @Override
-    protected Location findFood(int SEARCH_RADIUS)
-    {
+    protected Location findFood(int SEARCH_RADIUS) {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
