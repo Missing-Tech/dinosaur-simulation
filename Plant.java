@@ -48,11 +48,22 @@ public abstract class Plant {
         setLocation(location);
     }
 
-    public void grow(List<Plant> newPlants){
+    public void grow(List<Plant> newPlants, String weather) {
+        // if((age+1 % growthPeriod) == 0){
+        // growthStage++;
+        // }
         incrementAge();
         if (isAlive()) {
-            giveBirth(newPlants);
-            Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
+            giveBirth(newPlants, weather);
+            if (isAlive()) {
+
+                Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
+                if (newLocation == null) {
+                    // Overcrowding.
+                    // setDead();
+                }
+            }
+
         }
     }
 
@@ -72,12 +83,12 @@ public abstract class Plant {
      * 
      * @param newPlants A list to return newly born foxes.
      */
-    private void giveBirth(List<Plant> newPlants) {
+    private void giveBirth(List<Plant> newPlants, String weather) {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation(), false);
-        int births = breed();
+        int births = breed(weather);
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Plant young = copyThis(loc);
@@ -97,8 +108,17 @@ public abstract class Plant {
      * @return The number of births (may be zero).
      */
 
-    private int breed() {
+    private int breed(String weather) {
+        BREEDING_PROBABILITY = 0.15;
+
+        if (weather.equals("RAIN")) {
+            BREEDING_PROBABILITY *= 1.3;
+        } else if (weather.equals("HEATWAVE")) {
+            BREEDING_PROBABILITY *= 0.4;
+        }
+
         int births = 0;
+
         if (canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }

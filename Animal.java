@@ -86,7 +86,7 @@ public abstract class Animal {
      * 
      * @param newAnimals A list to receive newly born animals.
      */
-    public void act(List<Animal> newAnimals) {
+    public void act(List<Animal> newAnimals, int SEARCH_RADIUS) {
         handleInfection();
         incrementAge();
         incrementHunger();
@@ -106,7 +106,7 @@ public abstract class Animal {
             }
 
             if (newLocation == null) {
-                newLocation = findFood();   
+                newLocation = findFood(SEARCH_RADIUS);   
             }
 
             // If there's neither food or a mate, then look for a free location to move to
@@ -128,7 +128,7 @@ public abstract class Animal {
         }
     };
 
-    protected abstract Location findFood();
+    protected abstract Location findFood(int SEARCH_RADIUS);
 
     /**
      * Increase the age. This could result in the fox's death.

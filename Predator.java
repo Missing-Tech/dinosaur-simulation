@@ -36,7 +36,7 @@ public abstract class Predator extends Animal{
      * @return Where food was found, or null if it wasn't.
      */
     @Override
-    protected abstract Location findFood();
+    protected abstract Location findFood(int SEARCH_RADIUS);
     
     protected void incrementAge()
     {

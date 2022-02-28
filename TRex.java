@@ -40,7 +40,7 @@ public class TRex extends Predator {
     }
 
     @Override
-    protected Location findFood() {
+    protected Location findFood(int SEARCH_RADIUS) {
         Field field = getField();
         List<Location> adjacent = findNearbyLocations(SEARCH_RADIUS);
 

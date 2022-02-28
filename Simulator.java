@@ -27,6 +27,8 @@ public class Simulator {
     private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.1;
     private static final double TRICERATOPS_CREATION_PROBABILITY = 0.6;
     private static final double PLANT_CREATION_PROBABILITY = 0.3;
+    private static int SEARCH_RADIUS;
+
 
     // List of animals in the field.
     private List<Animal> animals;
@@ -40,6 +42,8 @@ public class Simulator {
     private SimulatorView view;
     // The timer for the simulation
     private Time timer;
+
+    private Weather weather;
 
     private static final Color lightGreen = new Color(211, 255, 79);
 
@@ -73,6 +77,7 @@ public class Simulator {
         animals = new ArrayList<>();
         plants = new ArrayList<>();
         field = new Field(depth, width);
+        weather = new Weather();
         timer = new Time();
 
         // Create a view of the state of each location in the field.
@@ -117,27 +122,28 @@ public class Simulator {
     public void simulateOneStep() {
 
         step++;
+        weather.chooseWeather(step);
         timer.incrementTime();
+
+       checkForFog();
 
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<>();
-        if (timer.getHour() >= 4 && timer.getHour() < 20) {
+        if (timer.getHour() >= 3 && timer.getHour() < 22) {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
                 if (animal instanceof Predator) {
-                    animal.act(newAnimals);
-                    if (!animal.isAlive()) {
-                        it.remove();
-                    }
+                    animal.act(newAnimals,SEARCH_RADIUS);
                 }
-
             }
+
         }
-        if (timer.getHour() >= 6 && timer.getHour() < 18) {
+
+        if (timer.getHour() >= 4 && timer.getHour() < 20) {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
                 if (animal instanceof Prey) {
-                    animal.act(newAnimals);
+                    animal.act(newAnimals, SEARCH_RADIUS);
                     if (!animal.isAlive()) {
                         it.remove();
                     }
@@ -145,14 +151,13 @@ public class Simulator {
 
             }
         }
-        if ((timer.getHour() >= 4 && timer.getHour() < 6) || (timer.getHour() >= 18 && timer.getHour() < 20)) {
+        if ((timer.getHour() >= 3 && timer.getHour() < 4) || (timer.getHour() >= 20 && timer.getHour() < 22)) {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
                 if (animal instanceof Prey) {
                     Prey prey = (Prey) animal;
                     prey.checkPredator();
                 }
-
             }
         }
 
@@ -163,7 +168,7 @@ public class Simulator {
         // Let all rabbits act.
         for (Iterator<Plant> it = plants.iterator(); it.hasNext();) {
             Plant plant = it.next();
-            plant.grow(newPlants);
+            plant.grow(newPlants, weather.getWeather());
             if (!plant.isAlive()) {
                 it.remove();
             }
@@ -172,8 +177,7 @@ public class Simulator {
         // Add the newly born foxes and rabbits to the main lists.
         plants.addAll(newPlants);
 
-        view.showStatus(step, field, timer.getTime());
-
+        view.showStatus(step, field, weather.getWeather(), timer.getTime());
     }
 
     /**
@@ -186,7 +190,7 @@ public class Simulator {
         populate();
 
         // Show the starting state in the view.
-        view.showStatus(step, field, timer.getTime());
+        view.showStatus(step, field, weather.getWeather(), timer.getTime());
     }
 
     /**
@@ -255,6 +259,14 @@ public class Simulator {
                 }
             }
             // else leave the location empty.
+        }
+    }
+
+    public void checkForFog(){
+        if(weather.getWeather().equals("FOG")){
+            SEARCH_RADIUS = 2;
+        }else{
+            SEARCH_RADIUS = 3;
         }
     }
 

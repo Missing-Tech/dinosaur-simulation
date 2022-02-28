@@ -56,7 +56,7 @@ public abstract class Prey extends Animal {
      * @return Where food was found, or null if it wasn't.
      */
     @Override
-    protected Location findFood()
+    protected Location findFood(int SEARCH_RADIUS)
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
