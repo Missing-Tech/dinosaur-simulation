@@ -115,7 +115,7 @@ public class Simulator {
      * fox and rabbit.
      */
     public void simulateOneStep() {
-  
+
         step++;
         timer.incrementTime();
 
@@ -130,10 +130,10 @@ public class Simulator {
                         it.remove();
                     }
                 }
-        
+
             }
         }
-        if(timer.getHour() >= 6 && timer.getHour() < 18){
+        if (timer.getHour() >= 6 && timer.getHour() < 18) {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
                 if (animal instanceof Prey) {
@@ -142,13 +142,23 @@ public class Simulator {
                         it.remove();
                     }
                 }
-                
+
+            }
+        }
+        if ((timer.getHour() >= 4 && timer.getHour() < 6) || (timer.getHour() >= 18 && timer.getHour() < 20)) {
+            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
+                Animal animal = it.next();
+                if (animal instanceof Prey) {
+                    Prey prey = (Prey) animal;
+                    prey.checkPredator();
+
+                }
+
             }
         }
 
         // Add the newly born foxes and rabbits to the main lists.
         animals.addAll(newAnimals);
-        view.showStatus(step, field, timer.getTime());
         // Provide space for newborn animals.
         List<Plant> newPlants = new ArrayList<>();
         // Let all rabbits act.
@@ -163,7 +173,8 @@ public class Simulator {
         // Add the newly born foxes and rabbits to the main lists.
         plants.addAll(newPlants);
 
-        
+        view.showStatus(step, field, timer.getTime());
+
     }
 
     /**
