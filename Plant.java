@@ -11,8 +11,6 @@ import java.util.Random;
 public abstract class Plant {
     // Whether the animal is alive or not.
     private boolean alive;
-    private int growthStage = 0;
-    private int growthPeriod;
     protected int age;
 
     // The age at which a fox can start to breed.
@@ -50,19 +48,11 @@ public abstract class Plant {
         setLocation(location);
     }
 
-    public void grow(List<Plant> newPlants) {
-        // if((age+1 % growthPeriod) == 0){
-        // growthStage++;
-        // }
+    public void grow(List<Plant> newPlants){
         incrementAge();
         if (isAlive()) {
             giveBirth(newPlants);
             Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
-
-            if (newLocation == null) {
-                // Overcrowding.
-                // setDead();
-            }
         }
     }
 
@@ -129,10 +119,6 @@ public abstract class Plant {
      */
     protected boolean isAlive() {
         return alive;
-    }
-
-    protected int getGrowthStage() {
-        return growthStage;
     }
 
     /**

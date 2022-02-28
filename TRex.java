@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,18 +13,18 @@ public class TRex extends Predator {
     // Characteristics shared by all foxes (class variables).
 
     // The age at which a fox can start to breed.
-    private static final int BREEDING_AGE = 15;
+    private static final int BREEDING_AGE = 10;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 100;
+    private static final int MAX_AGE = 150;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.05;
+    private static final double BREEDING_PROBABILITY = 0.8;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 1;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
     private static final int PREY_FOOD_VALUE = 20;
-    // A shared random number generator to control breeding.
-   
+
+    private static final int SEARCH_RADIUS = 3;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -42,6 +43,17 @@ public class TRex extends Predator {
     protected Location findFood() {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
+
+        List<Location> nearbyLocations = new ArrayList<>();
+        // Increase search radius by one
+        for (int i = 0; i < SEARCH_RADIUS; i++) {
+            for (Location adjacentLocation : adjacent) {
+                nearbyLocations.addAll(field.adjacentLocations(adjacentLocation));
+            }
+        }
+        
+        adjacent.addAll(nearbyLocations);
+        
         Iterator<Location> it = adjacent.iterator();
         while (it.hasNext()) {
             Location where = it.next();
