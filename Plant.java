@@ -54,13 +54,7 @@ public abstract class Plant {
         // }
         incrementAge();
         if (isAlive()) {
-            if (weather.equals("RAIN")) {
-                giveBirth(newPlants, 0.4);
-            } else if (weather.equals("HEATWAVE")) {
-               giveBirth(newPlants, 0.07);
-            } else {
-                giveBirth(newPlants, BREEDING_PROBABILITY);
-            }
+                giveBirth(newPlants, weather);
             if (isAlive()) {
 
                 Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
@@ -89,12 +83,12 @@ public abstract class Plant {
      * 
      * @param newPlants A list to return newly born foxes.
      */
-    private void giveBirth(List<Plant> newPlants, double breedingProbability) {
+    private void giveBirth(List<Plant> newPlants, String weather) {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation(), false);
-        int births = breed(breedingProbability);
+        int births = breed(weather);
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Plant young = copyThis(loc);
@@ -114,11 +108,22 @@ public abstract class Plant {
      * @return The number of births (may be zero).
      */
 
-    private int breed(double breedingProbability) {
+    private int breed(String weather) {
+
+        if (weather.equals("RAIN")) {
+            BREEDING_PROBABILITY = 0.5;
+        } else if (weather.equals("HEATWAVE")) {
+            BREEDING_PROBABILITY = 0.07;
+        } else {
+            BREEDING_PROBABILITY = 0.15;
+        }
+
         int births = 0;
-        if (canBreed() && rand.nextDouble() <= breedingProbability) {
+
+        if (canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
+        
         return births;
     }
 
