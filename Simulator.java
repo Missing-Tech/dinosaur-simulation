@@ -151,7 +151,6 @@ public class Simulator {
                 if (animal instanceof Prey) {
                     Prey prey = (Prey) animal;
                     prey.checkPredator();
-
                 }
 
             }

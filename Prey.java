@@ -75,4 +75,22 @@ public abstract class Prey extends Animal {
         }
         return null;
     }
+
+    public void checkPredator() {
+        if (isAlive()) {
+            Field field = getField();
+            List<Location> adjacent = field.adjacentLocations(getLocation());
+            Iterator<Location> it = adjacent.iterator();
+            while (it.hasNext()) {
+                Location where = it.next();
+                Object animal = field.getObjectAt(where);
+                if (animal instanceof Predator) {
+                    Location newLocation = getField().freeAdjacentLocation(getLocation(), true);
+                    if (newLocation != null) {
+                        setLocation(newLocation);
+                    }
+                }
+            }
+        }
+    }
 }
