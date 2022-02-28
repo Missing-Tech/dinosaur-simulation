@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A simple model of a fox.
@@ -10,10 +9,9 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
  */
-public class TRex extends Predator
-{
+public class TRex extends Predator {
     // Characteristics shared by all foxes (class variables).
-    
+
     // The age at which a fox can start to breed.
     private static final int BREEDING_AGE = 10;
     // The age to which a fox can live.
@@ -33,17 +31,16 @@ public class TRex extends Predator
      * and not hungry) or with a random age and food level.
      * 
      * @param randomAge If true, the fox will have random age and hunger level.
-     * @param field The field currently occupied.
-     * @param location The location within the field.
+     * @param field     The field currently occupied.
+     * @param location  The location within the field.
      */
-    public TRex(boolean randomAge, Field field, Location location)
-    {
-        super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE, PREY_FOOD_VALUE);
+    public TRex(boolean randomAge, Field field, Location location) {
+        super(randomAge, field, location, BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE,
+                PREY_FOOD_VALUE);
     }
-    
+
     @Override
-    protected Location findFood()
-    {
+    protected Location findFood() {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
 
@@ -58,12 +55,12 @@ public class TRex extends Predator
         adjacent.addAll(nearbyLocations);
         
         Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Stegosaurus || animal instanceof Brontosaurus) {
+            if (animal instanceof Stegosaurus || animal instanceof Brontosaurus) {
                 Prey prey = (Prey) animal;
-                if(prey.isAlive()) { 
+                if (prey.isAlive()) {
                     prey.setDead();
                     super.foodLevel = PREY_FOOD_VALUE;
                     return where;
@@ -74,7 +71,7 @@ public class TRex extends Predator
     }
 
     @Override
-    protected TRex copyThis(Location loc){
+    protected TRex copyThis(Location loc) {
         return new TRex(false, getField(), loc);
     }
 

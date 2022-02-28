@@ -6,7 +6,7 @@ import java.awt.Color;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
- * containing rabbits and foxes.
+ * containing C and foxes.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
@@ -38,6 +38,8 @@ public class Simulator {
     private int step;
     // A graphical view of the simulation.
     private SimulatorView view;
+    // The timer for the simulation
+    private Time timer;
 
     private static final Color lightGreen = new Color(211, 255, 79);
 
@@ -71,8 +73,7 @@ public class Simulator {
         animals = new ArrayList<>();
         plants = new ArrayList<>();
         field = new Field(depth, width);
-
-        
+        timer = new Time();
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
@@ -114,22 +115,50 @@ public class Simulator {
      * fox and rabbit.
      */
     public void simulateOneStep() {
+
         step++;
+        timer.incrementTime();
 
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<>();
-        // Let all rabbits act.
-        for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
-            Animal animal = it.next();
-            animal.act(newAnimals);
-            if (!animal.isAlive()) {
-                it.remove();
+        if (timer.getHour() >= 4 && timer.getHour() < 20) {
+            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
+                Animal animal = it.next();
+                if (animal instanceof Predator) {
+                    animal.act(newAnimals);
+                    if (!animal.isAlive()) {
+                        it.remove();
+                    }
+                }
+
+            }
+        }
+        if (timer.getHour() >= 6 && timer.getHour() < 18) {
+            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
+                Animal animal = it.next();
+                if (animal instanceof Prey) {
+                    animal.act(newAnimals);
+                    if (!animal.isAlive()) {
+                        it.remove();
+                    }
+                }
+
+            }
+        }
+        if ((timer.getHour() >= 4 && timer.getHour() < 6) || (timer.getHour() >= 18 && timer.getHour() < 20)) {
+            for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
+                Animal animal = it.next();
+                if (animal instanceof Prey) {
+                    Prey prey = (Prey) animal;
+                    prey.checkPredator();
+
+                }
+
             }
         }
 
         // Add the newly born foxes and rabbits to the main lists.
         animals.addAll(newAnimals);
-
         // Provide space for newborn animals.
         List<Plant> newPlants = new ArrayList<>();
         // Let all rabbits act.
@@ -144,7 +173,8 @@ public class Simulator {
         // Add the newly born foxes and rabbits to the main lists.
         plants.addAll(newPlants);
 
-        view.showStatus(step, field);
+        view.showStatus(step, field, timer.getTime());
+
     }
 
     /**
@@ -153,10 +183,11 @@ public class Simulator {
     public void reset() {
         step = 0;
         animals.clear();
+        timer.resetTime();
         populate();
 
         // Show the starting state in the view.
-        view.showStatus(step, field);
+        view.showStatus(step, field, timer.getTime());
     }
 
     /**
@@ -167,7 +198,7 @@ public class Simulator {
         spawnAnimals();
     }
 
-    private void spawnPlants(){
+    private void spawnPlants() {
         Random rand = Randomizer.getRandom();
         field.clear();
         for (int row = 0; row < field.getDepth(); row++) {
@@ -181,30 +212,30 @@ public class Simulator {
                     Plant plant = plantFactory.getPlant(plantType, field, location);
                     plants.add(plant);
                 }
-                
+
                 // else leave the location empty.
             }
         }
     }
 
-    private void spawnAnimals(){
+    private void spawnAnimals() {
         Random rand = Randomizer.getRandom();
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
-                
+
                 if (rand.nextDouble() <= PREDATOR_CREATION_PROBABILITY) {
                     PredatorFactory predatorFactory = new PredatorFactory();
                     Location location = new Location(row, col);
 
                     Animals predatorType;
 
-                    if(rand.nextDouble() <= TREX_CREATION_PROBABILITY){
+                    if (rand.nextDouble() <= TREX_CREATION_PROBABILITY) {
                         predatorType = Animals.TREX;
                     } else {
                         predatorType = Animals.VELOCIRAPTOR;
                     }
 
-                    Predator predator = predatorFactory.getPredator(predatorType,field,location);
+                    Predator predator = predatorFactory.getPredator(predatorType, field, location);
                     animals.add(predator);
                 } else if (rand.nextDouble() <= PREY_CREATION_PROBABILITY) {
                     PreyFactory preyFactory = new PreyFactory();
@@ -212,21 +243,21 @@ public class Simulator {
 
                     Animals preyType;
 
-                    if(rand.nextDouble() <= BRONTOSAURUS_CREATION_PROBABILITY){
+                    if (rand.nextDouble() <= BRONTOSAURUS_CREATION_PROBABILITY) {
                         preyType = Animals.BRONTOSAURUS;
-                    } else if (rand.nextDouble() <= TRICERATOPS_CREATION_PROBABILITY){
+                    } else if (rand.nextDouble() <= TRICERATOPS_CREATION_PROBABILITY) {
                         preyType = Animals.TRICERATOPS;
-                    } else{
+                    } else {
                         preyType = Animals.STEGOSAURUS;
                     }
-                    
+
                     Prey prey = preyFactory.getPrey(preyType, field, location);
                     animals.add(prey);
-                } 
+                }
             }
-                // else leave the location empty.
-            }
+            // else leave the location empty.
         }
+    }
 
     /**
      * Pause for a given time.
