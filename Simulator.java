@@ -27,6 +27,8 @@ public class Simulator {
     private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.1;
     private static final double TRICERATOPS_CREATION_PROBABILITY = 0.6;
     private static final double PLANT_CREATION_PROBABILITY = 0.3;
+    private static final int BASE_SEARCH_RADIUS = 3;
+    private static final int FOG_SEARCH_RADIUS = 2;
 
     // List of animals in the field.
     private List<Animal> animals;
@@ -75,11 +77,8 @@ public class Simulator {
         animals = new ArrayList<>();
         plants = new ArrayList<>();
         field = new Field(depth, width);
-<<<<<<< HEAD
         weather = new Weather();
-=======
         timer = new Time();
->>>>>>> 8dbe4242ca4abc39d397f750142dfae0b0ee7b48
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
@@ -123,24 +122,7 @@ public class Simulator {
     public void simulateOneStep() {
 
         step++;
-<<<<<<< HEAD
         weather.chooseWeather();
-        // Provide space for newborn animals.
-        List<Animal> newAnimals = new ArrayList<>();
-        // Let all rabbits act.
-        for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
-            Animal animal = it.next();
-            if (weather.getWeather().equals("FOG") && animal instanceof Predator) {
-                if (step % 3 == 0) {
-                    animal.act(newAnimals);
-                }
-            } else {
-                animal.act(newAnimals);
-            }
-
-            if (!animal.isAlive()) {
-                it.remove();
-=======
         timer.incrementTime();
 
         // Provide space for newborn animals.
@@ -148,20 +130,20 @@ public class Simulator {
         if (timer.getHour() >= 4 && timer.getHour() < 20) {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
-                if (animal instanceof Predator) {
-                    animal.act(newAnimals);
-                    if (!animal.isAlive()) {
-                        it.remove();
-                    }
+                if (weather.getWeather().equals("FOG") && animal instanceof Predator) {
+                    animal.act(newAnimals,FOG_SEARCH_RADIUS);
+                } else {
+                    animal.act(newAnimals,BASE_SEARCH_RADIUS);
                 }
-
             }
+
         }
+
         if (timer.getHour() >= 6 && timer.getHour() < 18) {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
                 if (animal instanceof Prey) {
-                    animal.act(newAnimals);
+                    animal.act(newAnimals, BASE_SEARCH_RADIUS);
                     if (!animal.isAlive()) {
                         it.remove();
                     }
@@ -176,8 +158,6 @@ public class Simulator {
                     Prey prey = (Prey) animal;
                     prey.checkPredator();
                 }
-
->>>>>>> 8dbe4242ca4abc39d397f750142dfae0b0ee7b48
             }
         }
 
@@ -197,12 +177,7 @@ public class Simulator {
         // Add the newly born foxes and rabbits to the main lists.
         plants.addAll(newPlants);
 
-<<<<<<< HEAD
-        view.showStatus(step, field, weather.getWeather());
-=======
-        view.showStatus(step, field, timer.getTime());
-
->>>>>>> 8dbe4242ca4abc39d397f750142dfae0b0ee7b48
+        view.showStatus(step, field, weather.getWeather(), timer.getTime());
     }
 
     /**
@@ -215,11 +190,7 @@ public class Simulator {
         populate();
 
         // Show the starting state in the view.
-<<<<<<< HEAD
-        view.showStatus(step, field, weather.getWeather());
-=======
-        view.showStatus(step, field, timer.getTime());
->>>>>>> 8dbe4242ca4abc39d397f750142dfae0b0ee7b48
+        view.showStatus(step, field, weather.getWeather(), timer.getTime());
     }
 
     /**

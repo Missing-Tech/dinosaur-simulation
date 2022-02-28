@@ -26,7 +26,7 @@ public class Velociraptor extends Predator
     // number of steps a fox can go before it has to eat again.
     private static final int PREY_FOOD_VALUE = 20;
 
-    private static final int SEARCH_RADIUS = 3;
+    private static int SEARCH_RADIUS = 3;
 
     protected int age;
     /**
@@ -43,7 +43,7 @@ public class Velociraptor extends Predator
     }
     
     @Override
-    protected Location findFood()
+    protected Location findFood(int SEARCH_RADIUS)
     {
         Field field = getField();
         List<Location> adjacent = findNearbyLocations(SEARCH_RADIUS);

@@ -48,7 +48,6 @@ public abstract class Plant {
         setLocation(location);
     }
 
-<<<<<<< HEAD
     public void grow(List<Plant> newPlants, String weather) {
         // if((age+1 % growthPeriod) == 0){
         // growthStage++;
@@ -72,13 +71,6 @@ public abstract class Plant {
                 }
             }
 
-=======
-    public void grow(List<Plant> newPlants){
-        incrementAge();
-        if (isAlive()) {
-            giveBirth(newPlants);
-            Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
->>>>>>> 8dbe4242ca4abc39d397f750142dfae0b0ee7b48
         }
     }
 
@@ -147,13 +139,6 @@ public abstract class Plant {
         return alive;
     }
 
-<<<<<<< HEAD
-    protected int getGrowthStage() {
-        return growthStage;
-    }
-
-=======
->>>>>>> 8dbe4242ca4abc39d397f750142dfae0b0ee7b48
     /**
      * Indicate that the animal is no longer alive.
      * It is removed from the field.
