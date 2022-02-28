@@ -58,7 +58,7 @@ public abstract class Plant {
                 giveBirth(newPlants);
                 giveBirth(newPlants);
             } else if (weather.equals("HEATWAVE")) {
-                incrementAge();
+               
             } else {
                 giveBirth(newPlants);
             }

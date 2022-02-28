@@ -27,8 +27,8 @@ public class Simulator {
     private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.1;
     private static final double TRICERATOPS_CREATION_PROBABILITY = 0.6;
     private static final double PLANT_CREATION_PROBABILITY = 0.3;
-    private static final int BASE_SEARCH_RADIUS = 3;
-    private static final int FOG_SEARCH_RADIUS = 2;
+    private static int SEARCH_RADIUS;
+
 
     // List of animals in the field.
     private List<Animal> animals;
@@ -122,18 +122,18 @@ public class Simulator {
     public void simulateOneStep() {
 
         step++;
-        weather.chooseWeather();
+        weather.chooseWeather(step);
         timer.incrementTime();
+
+       checkForFog();
 
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<>();
         if (timer.getHour() >= 4 && timer.getHour() < 20) {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
-                if (weather.getWeather().equals("FOG") && animal instanceof Predator) {
-                    animal.act(newAnimals,FOG_SEARCH_RADIUS);
-                } else {
-                    animal.act(newAnimals,BASE_SEARCH_RADIUS);
+                if (animal instanceof Predator) {
+                    animal.act(newAnimals,SEARCH_RADIUS);
                 }
             }
 
@@ -143,7 +143,7 @@ public class Simulator {
             for (Iterator<Animal> it = animals.iterator(); it.hasNext();) {
                 Animal animal = it.next();
                 if (animal instanceof Prey) {
-                    animal.act(newAnimals, BASE_SEARCH_RADIUS);
+                    animal.act(newAnimals, SEARCH_RADIUS);
                     if (!animal.isAlive()) {
                         it.remove();
                     }
@@ -259,6 +259,14 @@ public class Simulator {
                 }
             }
             // else leave the location empty.
+        }
+    }
+
+    public void checkForFog(){
+        if(weather.getWeather().equals("FOG")){
+            SEARCH_RADIUS = 2;
+        }else{
+            SEARCH_RADIUS = 3;
         }
     }
 

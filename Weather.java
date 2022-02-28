@@ -15,16 +15,18 @@ public class Weather {
         weather = "NORMAL";
     }
 
-    public void chooseWeather() {
-        double randomNumber = rand.nextDouble();
-        if (randomNumber <= NORMAL_PROBABILITY) {
-            weather = "NORMAL";
-        } else if (randomNumber <= RAIN_PROBABILITY) {
-            weather = "RAIN";
-        } else if (randomNumber <= FOG_PROBABILITY) {
-            weather = "FOG";
-        } else {
-            weather = "HEATWAVE";
+    public void chooseWeather(int step) {
+        if(step % 3 == 0) {
+            double randomNumber = rand.nextDouble();
+            if (randomNumber <= NORMAL_PROBABILITY) {
+                weather = "NORMAL";
+            } else if (randomNumber <= RAIN_PROBABILITY) {
+                weather = "RAIN";
+            } else if (randomNumber <= FOG_PROBABILITY) {
+                weather = "FOG";
+            } else {
+                weather = "HEATWAVE";
+            }
         }
     }
 
