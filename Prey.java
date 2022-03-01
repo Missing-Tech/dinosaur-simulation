@@ -53,7 +53,7 @@ public abstract class Prey extends Animal {
      * @return Where food was found, or null if it wasn't.
      */
     @Override
-    protected Location findFood(int SEARCH_RADIUS) {
+    protected Location findFood() {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
@@ -72,6 +72,10 @@ public abstract class Prey extends Animal {
         return null;
     }
 
+    /**
+     * Checks the nearby cells for predators
+     * @return Returns true if a predator is nearby
+     */
     public boolean checkForPredators() {
         if (isAlive()) {
             Field field = getField();

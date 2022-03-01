@@ -42,7 +42,7 @@ public abstract class Predator extends Animal {
      * @return Where food was found, or null if it wasn't.
      */
     @Override
-    protected abstract Location findFood(int SEARCH_RADIUS);
+    protected abstract Location findFood();
 
     /**
      * Provides a function for a subclass to create a copy of itself

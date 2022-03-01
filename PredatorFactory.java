@@ -11,10 +11,10 @@ public class PredatorFactory {
          return null;
       }
       if (predatorType == Animals.TREX) {
-         return new TRex(false, field, location);
+         return new TRex(true, field, location);
 
       } else if (predatorType == Animals.VELOCIRAPTOR) {
-         return new Velociraptor(false, field, location);
+         return new Velociraptor(true, field, location);
       }
 
       return null;

@@ -142,7 +142,7 @@ public abstract class Animal {
 
             // If a mate isn't found, or food is not abundant, then find food
             if (newLocation == null) {
-                newLocation = findFood(0);
+                newLocation = findFood();
             }
 
             // If there's neither food or a mate, then look for a free location to move to
@@ -166,10 +166,9 @@ public abstract class Animal {
 
     /**
      * Function to search food
-     * @param SEARCH_RADIUS Radius to search around this animal for food
      * @return Returns a location of nearby food to move to
      */
-    protected abstract Location findFood(int SEARCH_RADIUS);
+    protected abstract Location findFood();
 
     /**
      * Increase the age. This could result in the animal's death.

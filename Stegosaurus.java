@@ -1,22 +1,19 @@
-import java.util.List;
-import java.util.Random;
-
 /**
  * A simple model of a Stegosaurus.
  * Stegosauruss age, move, breed, and die.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 (3)
  */
 public class Stegosaurus extends Prey {
-    // Characteristics shared by all Stegosauruss (class variables).
+    // Characteristics shared by all Stegosaurus (class variables).
 
     // The age at which a Stegosaurus can start to breed.
     private static final int BREEDING_AGE = 10;
     // The age to which a Stegosaurus can live.
     private static final int MAX_AGE = 70;
     // The likelihood of a Stegosaurus breeding.
-    private static final double BREEDING_PROBABILITY = 0.2;
+    private static final double BREEDING_PROBABILITY = 0.3;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
     // Age of this Stegosaurus instance

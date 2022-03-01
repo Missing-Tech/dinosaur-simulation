@@ -7,14 +7,13 @@
  * @version 2022.03.01 
  */
 public class Triceratops extends Prey {
-    // Characteristics shared by all Triceratops' (class variables).
 
     // The age at which a Triceratops can start to breed.
     private static final int BREEDING_AGE = 5;
     // The age to which a Triceratops can live.
-    private static final int MAX_AGE = 60;
+    private static final int MAX_AGE = 50;
     // The likelihood of a Triceratops breeding.
-    private static final double BREEDING_PROBABILITY = 0.1;
+    private static final double BREEDING_PROBABILITY = 0.04;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
 

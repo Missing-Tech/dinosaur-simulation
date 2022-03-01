@@ -19,13 +19,13 @@ public class Simulator {
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 100;
     // The probability that a fox will be created in any given grid position.
-    private static final double PREDATOR_CREATION_PROBABILITY = 0.015;
+    private static final double PREDATOR_CREATION_PROBABILITY = 0.02;
     // The probability that a rabbit will be created in any given grid position.
     private static final double PREY_CREATION_PROBABILITY = 0.1;
 
     private static final double TREX_CREATION_PROBABILITY = 0.5;
-    private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.1;
-    private static final double TRICERATOPS_CREATION_PROBABILITY = 0.6;
+    private static final double BRONTOSAURUS_CREATION_PROBABILITY = 0.2;
+    private static final double TRICERATOPS_CREATION_PROBABILITY = 0.3;
     private static final double PLANT_CREATION_PROBABILITY = 0.3;
 
     // List of animals in the field.
@@ -56,7 +56,6 @@ public class Simulator {
     {
         Simulator simulator = new Simulator();
         simulator.runLongSimulation();
-
     }
 
     /**

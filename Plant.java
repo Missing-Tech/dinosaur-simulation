@@ -55,12 +55,6 @@ public abstract class Plant {
         incrementAge();
         if (isAlive()) {
             giveBirth(newPlants);
-            if (isAlive()) {
-
-                Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
-
-            }
-
         }
     }
 
@@ -78,10 +72,10 @@ public abstract class Plant {
      * Check whether or not this plant is to give birth at this step.
      * New births will be made into free adjacent locations.
      * 
-     * @param newPlants A list to return newly born plantes.
+     * @param newPlants A list to return newly born plants.
      */
     private void giveBirth(List<Plant> newPlants) {
-        // New plantes are born into adjacent locations.
+        // New plants are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation(), false);
@@ -110,7 +104,7 @@ public abstract class Plant {
         if (weather.getWeather().equals(WeatherType.RAIN)) {
             BREEDING_PROBABILITY *= 1.3;
         } else if (weather.getWeather().equals(WeatherType.HEATWAVE)) {
-            BREEDING_PROBABILITY *= 0.4;
+            BREEDING_PROBABILITY *= 0.5;
         }
 
         int births = 0;

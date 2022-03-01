@@ -11,11 +11,11 @@ public class PreyFactory {
          return null;
       }
       if (preyType == Animals.TRICERATOPS) {
-         return new Triceratops(true, field, location);
+         return new Triceratops(false, field, location);
       } else if (preyType == Animals.BRONTOSAURUS) {
-         return new Brontosaurus(true, field, location);
+         return new Brontosaurus(false, field, location);
       } else if (preyType == Animals.STEGOSAURUS) {
-         return new Stegosaurus(true, field, location);
+         return new Stegosaurus(false, field, location);
       }
 
       return null;

@@ -6,14 +6,14 @@
  * @version 2022.03.01 (3)
  */
 public class Brontosaurus extends Prey {
-    // Characteristics shared by all Brontosauruss (class variables).
+    // Characteristics shared by all Brontosaurus (class variables).
 
     // The age at which a Brontosaurus can start to breed.
     private static final int BREEDING_AGE = 35;
     // The age to which a Brontosaurus can live.
     private static final int MAX_AGE = 80;
     // The likelihood of a Brontosaurus breeding.
-    private static final double BREEDING_PROBABILITY = 0.07;
+    private static final double BREEDING_PROBABILITY = 0.5;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
 
