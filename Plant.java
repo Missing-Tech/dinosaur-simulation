@@ -107,9 +107,9 @@ public abstract class Plant {
     private int breed() {
         BREEDING_PROBABILITY = 0.15;
 
-        if (weather.equals(WeatherType.RAIN)) {
+        if (weather.getWeather().equals(WeatherType.RAIN)) {
             BREEDING_PROBABILITY *= 1.3;
-        } else if (weather.equals(WeatherType.HEATWAVE)) {
+        } else if (weather.getWeather().equals(WeatherType.HEATWAVE)) {
             BREEDING_PROBABILITY *= 0.4;
         }
 
