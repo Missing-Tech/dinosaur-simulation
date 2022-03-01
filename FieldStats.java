@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.util.HashMap;
 
 /**
@@ -6,8 +5,8 @@ import java.util.HashMap;
  * of a field. It is flexible: it will create and maintain a counter
  * for any class of object that is found within the field.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 
  */
 public class FieldStats {
     // Counters for each type of entity (fox, rabbit, etc.) in the simulation.

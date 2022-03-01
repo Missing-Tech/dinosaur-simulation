@@ -1,52 +1,60 @@
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
 /**
  * A class representing shared characteristics of animals.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh
+ *         Shrestha
+ * @version 2022.03.01 (3)
  */
 public abstract class Animal {
-    // Whether the animal is alive or not.
-    private boolean alive;
+
     // The animal's field.
     private Field field;
     // The animal's position in the field.
     private Location location;
-
-    private boolean isMale;
-
+    // A random number generator
     private Random rand = Randomizer.getRandom();
 
-    // The age at which a fox can start to breed.
+    // The age at which a animal can start to breed.
     protected static int BREEDING_AGE;
-    // The age to which a fox can live.
+    // The age to which a animal can live.
     protected static int MAX_AGE;
-    // The likelihood of a fox breeding.
+    // The likelihood of a animal breeding.
     protected static double BREEDING_PROBABILITY;
     // The maximum number of births.
     protected static int MAX_LITTER_SIZE;
 
+    // Probability to start off infected
     private static final double INFECTED_PROBABILITY = 0.05;
+    // Probability to spread the infection to other animals nearby
     private static final double INFECTIVITY = 0.2;
-    private static final double FATALITY_CHANCE = 0.01;
+    // Probability to die from the infection
+    private static final double FATALITY_PROBABILITY = 0.01;
+    // Days until the animal is cured of the infection
     private static final int DAYS_TILL_IMMUNE = 10;
 
+    // Static reference to Time singleton
     private static Time timer;
 
+    // Age of this animal
     protected int age;
+    // Whether the animal is alive or not.
+    private boolean alive;
+    // The hunger level of the animal
     protected int foodLevel;
+    // Flag for if the animal is male
+    private boolean isMale;
 
+    // Flag for if the animal is infected or not
     private boolean isInfected = false;
+    // Flag for if the animal is immune to catching the infection
     private boolean isImmune = false;
+    // Tracks the number of days the animal has had the infection
     private int daysInfected = 0;
 
     /**
@@ -68,18 +76,30 @@ public abstract class Animal {
         }
     }
 
+    /**
+     * Decide the gender of this animal
+     */
     private void decideGender() {
         isMale = rand.nextBoolean();
     }
 
+    /**
+     * Public function to infect this animal
+     */
     public void infect() {
         isInfected = true;
     }
 
+    /**
+     * @return The infection status
+     */
     public boolean isInfected() {
         return isInfected;
     }
 
+    /**
+     * @return The immunity status
+     */
     public boolean isImmune() {
         return isImmune;
     }
@@ -93,11 +113,15 @@ public abstract class Animal {
     public void act(List<Animal> newAnimals) {
         incrementAge();
         handleInfection();
-        if(timer.isNight() && !(this instanceof Predator))
-            if(this instanceof Prey){
-                Prey prey = (Prey)this;
-                if(!prey.checkForPredators())
-                    return; 
+        
+        // If it's night time then don't act (unless this is a predator)
+        if (timer.isNight() && !(this instanceof Predator))
+            // For Prey at night, check if there are any nearby predators
+            if (this instanceof Prey) {
+                Prey prey = (Prey) this;
+                // If there are no nearby predators then sleep
+                if (!prey.checkForPredators())
+                    return;
             }
 
         incrementHunger();
@@ -116,6 +140,7 @@ public abstract class Animal {
                 }
             }
 
+            // If a mate isn't found, or food is not abundant, then find food
             if (newLocation == null) {
                 newLocation = findFood(0);
             }
@@ -139,21 +164,31 @@ public abstract class Animal {
         }
     };
 
+    /**
+     * Function to search food
+     * @param SEARCH_RADIUS Radius to search around this animal for food
+     * @return Returns a location of nearby food to move to
+     */
     protected abstract Location findFood(int SEARCH_RADIUS);
 
     /**
-     * Increase the age. This could result in the fox's death.
+     * Increase the age. This could result in the animal's death.
      */
-    protected abstract void incrementAge();
+    protected void incrementAge(){
+        age++;
+        if (age > MAX_AGE) {
+            setDead();
+        }
+    };
 
     /**
-     * Check whether or not this fox is to give birth at this step.
+     * Check whether or not this animal is to give birth at this step.
      * New births will be made into free adjacent locations.
      * 
-     * @param newAnimals A list to return newly born foxes.
+     * @param newAnimals A list to return newly born animales.
      */
     protected void giveBirth(List<Animal> newAnimals) {
-        // New foxes are born into adjacent locations.
+        // New animales are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation(), true);
@@ -165,27 +200,44 @@ public abstract class Animal {
         }
     }
 
+    /**
+     * Handles logic regarding infection, and the spread of it
+     */
     private void handleInfection() {
+        // If this animal is infected and alive
         if (isInfected && isAlive()) {
+            // Increment the number of days infected
+            daysInfected++;
+
+            // Attempt to find a nearby animal to infect
             Animal animalToInfect = attemptToInfect();
             if (animalToInfect != null && rand.nextDouble() <= INFECTIVITY) {
+                // If one is found, then there's a chance it gets infected
                 animalToInfect.infect();
             }
-            daysInfected++;
+            // If the animal has been infected for long enough, then make it immune
             if (daysInfected >= DAYS_TILL_IMMUNE) {
                 isInfected = false;
                 isImmune = true;
             }
-            if (rand.nextDouble() <= FATALITY_CHANCE) {
+
+            // Chance of death
+            if (rand.nextDouble() <= FATALITY_PROBABILITY) {
                 setDead();
             }
         }
     }
 
+    /**
+     * Look for nearby locations to the animal
+     * @param searchRadius Radius around the animal to look for locations
+     * @return Returns a list of locations
+     */
     protected List<Location> findNearbyLocations(int searchRadius) {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
 
+        // Uses a set so there's no duplicate locations
         Set<Location> nearbyLocations = new HashSet<>();
         // Increase search radius by one
         for (int i = 0; i < searchRadius; i++) {
@@ -219,14 +271,14 @@ public abstract class Animal {
     }
 
     /**
-     * A fox can breed if it has reached the breeding age.
+     * An animal can breed if it has reached the breeding age.
      */
     private boolean canBreed() {
         return age >= BREEDING_AGE;
     }
 
     /**
-     * Make this fox more hungry. This could result in the fox's death.
+     * Make this animal more hungry. This could result in the animal's death.
      */
     protected void incrementHunger() {
         foodLevel--;
@@ -244,7 +296,12 @@ public abstract class Animal {
         return alive;
     }
 
+    /**
+     * @param gender Gender of the other animal
+     * @return Returns whether the genders are different
+     */
     public boolean isOppositeGender(boolean gender) {
+        // XOR on both animals genders to get whether they're different
         return gender ^ isMale;
     }
 
@@ -270,7 +327,13 @@ public abstract class Animal {
         return location;
     }
 
+    /**
+     * Looks for a valid mate in a radius around the animal
+     * @param searchRadius Radius to search around the animal
+     * @return Returns the location of a nearby mate
+     */
     protected Location findMate(int searchRadius) {
+        // Get all nearby locations in a radius
         List<Location> adjacent = findNearbyLocations(searchRadius);
 
         Iterator<Location> it = adjacent.iterator();
@@ -280,6 +343,7 @@ public abstract class Animal {
             Animal animal;
             if (object instanceof Animal) {
                 animal = (Animal) object;
+                // If the animals are the same species, and opposite genders then they're a valid mate
                 if (animal.getClass().equals(this.getClass()) && animal.isOppositeGender(isMale)) {
                     if (animal.isAlive()) {
                         return where;
@@ -290,6 +354,10 @@ public abstract class Animal {
         return null;
     }
 
+    /**
+     * Attempts to infect nearby animals
+     * @return Returns an animal to infect
+     */
     protected Animal attemptToInfect() {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());

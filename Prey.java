@@ -2,20 +2,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Prey class containing shared prey behaviour
+ * 
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 
+ */
 public abstract class Prey extends Animal {
-    // Characteristics shared by all rabbits (class variables).
+    // Characteristics shared by all Preys (class variables).
 
-    // The food value of a single rabbit. In effect, this is the
+    // The food value of a single Prey. In effect, this is the
     // number of steps a fox can go before it has to eat again.
     private static int PLANT_FOOD_VALUE = 20;
     // A shared random number generator to control breeding.
     private static Random rand = Randomizer.getRandom();
 
     /**
-     * Create a new rabbit. A rabbit may be created with age
+     * Create a new Prey. A Prey may be created with age
      * zero (a new born) or with a random age.
      * 
-     * @param randomAge If true, the rabbit will have a random age.
+     * @param randomAge If true, the Prey will have a random age.
      * @param field     The field currently occupied.
      * @param location  The location within the field.
      */
@@ -40,16 +46,9 @@ public abstract class Prey extends Animal {
     @Override
     protected abstract Prey copyThis(Location loc);
 
-    protected void incrementAge() {
-        age++;
-        if (age > MAX_AGE) {
-            setDead();
-        }
-    }
-
     /**
-     * Look for rabbits adjacent to the current location.
-     * Only the first live rabbit is eaten.
+     * Look for Preys adjacent to the current location.
+     * Only the first live Prey is eaten.
      * 
      * @return Where food was found, or null if it wasn't.
      */

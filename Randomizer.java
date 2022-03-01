@@ -7,8 +7,8 @@ import java.util.Random;
  * testing). Set
  * 'useShared' to false to get different random behaviour every time.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 
  */
 public class Randomizer {
     // The default seed for control of randomization.

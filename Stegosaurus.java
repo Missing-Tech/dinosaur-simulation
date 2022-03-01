@@ -2,31 +2,31 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * A simple model of a rabbit.
- * Rabbits age, move, breed, and die.
+ * A simple model of a Stegosaurus.
+ * Stegosauruss age, move, breed, and die.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
  */
 public class Stegosaurus extends Prey {
-    // Characteristics shared by all rabbits (class variables).
+    // Characteristics shared by all Stegosauruss (class variables).
 
-    // The age at which a rabbit can start to breed.
+    // The age at which a Stegosaurus can start to breed.
     private static final int BREEDING_AGE = 10;
-    // The age to which a rabbit can live.
+    // The age to which a Stegosaurus can live.
     private static final int MAX_AGE = 70;
-    // The likelihood of a rabbit breeding.
+    // The likelihood of a Stegosaurus breeding.
     private static final double BREEDING_PROBABILITY = 0.2;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
-
+    // Age of this Stegosaurus instance
     protected int age;
 
     /**
-     * Create a new rabbit. A rabbit may be created with age
+     * Create a new Stegosaurus. A Stegosaurus may be created with age
      * zero (a new born) or with a random age.
      * 
-     * @param randomAge If true, the rabbit will have a random age.
+     * @param randomAge If true, the Stegosaurus will have a random age.
      * @param field     The field currently occupied.
      * @param location  The location within the field.
      */

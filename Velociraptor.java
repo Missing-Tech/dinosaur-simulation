@@ -1,14 +1,12 @@
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 /**
- * A simple model of a fox.
- * Foxes age, move, eat rabbits, and die.
+ * A simple model of a Velociraptor.
+ * Velociraptors age, move, eat rabbits, and die.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 
  */
 public class Velociraptor extends Predator {
     // Characteristics shared by all foxes (class variables).
@@ -30,10 +28,10 @@ public class Velociraptor extends Predator {
     private static Weather weather;
 
     /**
-     * Create a fox. A fox can be created as a new born (age zero
+     * Create a Velociraptor. A Velociraptor can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      * 
-     * @param randomAge If true, the fox will have random age and hunger level.
+     * @param randomAge If true, the Velociraptor will have random age and hunger level.
      * @param field     The field currently occupied.
      * @param location  The location within the field.
      */
@@ -43,6 +41,11 @@ public class Velociraptor extends Predator {
         weather = Weather.getInstance();
     }
 
+    /**
+     * Function to search for food in the surrounding area
+     * @param SEARCH_RADIUS Radius around the animal to look for food
+     * @return Returns the location of nearby food
+     */
     @Override
     protected Location findFood(int SEARCH_RADIUS) {
         int searchRadius = weather.getWeather().equals(WeatherType.FOG) ? 1 : SEARCH_RADIUS;

@@ -1,5 +1,11 @@
 import java.util.Random;
 
+/**
+ * Global Weather class to handle what weather it is
+ * 
+ * @author Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 
+ */
 public class Weather {
     private static Weather INSTANCE;
 
@@ -17,6 +23,10 @@ public class Weather {
         weather = WeatherType.CLEAR;
     }
 
+    /**
+     * Singleton pattern
+     * @return Returns the global instance of this object
+     */
     public static Weather getInstance() {
         if(INSTANCE == null) {
             INSTANCE = new Weather();
@@ -25,8 +35,13 @@ public class Weather {
         return INSTANCE;
     }
 
+    /**
+     * Chooses weather randomly
+     * @param step Current step of the program
+     */
     public void chooseWeather(int step) {
-        if (step % 3 == 0) {
+        // Changes the weather every 10 steps
+        if (step % 10 == 0) {
             double randomNumber = rand.nextDouble();
             if (randomNumber <= CLEAR_PROBABILITY) {
                 weather = WeatherType.CLEAR;

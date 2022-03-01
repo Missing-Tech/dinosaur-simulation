@@ -1,6 +1,12 @@
-import java.util.List;
 import java.util.Random;
 
+/**
+ * A simple model of grass
+ * It lives, dies and grows
+ * 
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 
+ */
 public class Grass extends Plant {
     // Characteristics shared by all rabbits (class variables).
     // The age at which a rabbit can start to breed.

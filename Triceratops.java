@@ -1,21 +1,19 @@
-import java.util.List;
-import java.util.Random;
 
 /**
  * A simple model of a Triceratops.
  * Triceratops' age, move, breed, and die.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 
  */
 public class Triceratops extends Prey {
     // Characteristics shared by all Triceratops' (class variables).
 
-    // The age at which a rabbit can start to breed.
+    // The age at which a Triceratops can start to breed.
     private static final int BREEDING_AGE = 5;
-    // The age to which a rabbit can live.
+    // The age to which a Triceratops can live.
     private static final int MAX_AGE = 60;
-    // The likelihood of a rabbit breeding.
+    // The likelihood of a Triceratops breeding.
     private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;

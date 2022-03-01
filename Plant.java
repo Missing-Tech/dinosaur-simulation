@@ -1,38 +1,37 @@
-
 import java.util.List;
 import java.util.Random;
 
 /**
- * A class representing shared characteristics of animals.
+ * A class representing shared characteristics of plants.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 (3)
  */
 public abstract class Plant {
-    // Whether the animal is alive or not.
+    // Whether the plant is alive or not.
     private boolean alive;
     protected int age;
 
-    // The age at which a fox can start to breed.
+    // The age at which a plant can start to breed.
     private static int BREEDING_AGE;
-    // The age to which a fox can live.
+    // The age to which a plant can live.
     private static int MAX_AGE;
-    // The likelihood of a fox breeding.
+    // The likelihood of a plant breeding.
     private static double BREEDING_PROBABILITY;
     // The maximum number of births.
     private static int MAX_LITTER_SIZE;
 
     private Random rand = Randomizer.getRandom();
 
-    // The animal's field.
+    // The plant's field.
     private Field field;
-    // The animal's position in the field.
+    // The plant's position in the field.
     private Location location;
 
     private Weather weather;
 
     /**
-     * Create a new animal at location in field.
+     * Create a new plant at location in field.
      * 
      * @param field    The field currently occupied.
      * @param location The location within the field.
@@ -53,26 +52,20 @@ public abstract class Plant {
     }
 
     public void grow(List<Plant> newPlants) {
-        // if((age+1 % growthPeriod) == 0){
-        // growthStage++;
-        // }
         incrementAge();
         if (isAlive()) {
             giveBirth(newPlants);
             if (isAlive()) {
 
                 Location newLocation = getField().freeAdjacentLocation(getLocation(), false);
-                if (newLocation == null) {
-                    // Overcrowding.
-                    // setDead();
-                }
+
             }
 
         }
     }
 
     /**
-     * Increase the age. This could result in the fox's death.
+     * Increase the age. This could result in the plant's death.
      */
     private void incrementAge() {
         age++;
@@ -82,13 +75,13 @@ public abstract class Plant {
     }
 
     /**
-     * Check whether or not this fox is to give birth at this step.
+     * Check whether or not this plant is to give birth at this step.
      * New births will be made into free adjacent locations.
      * 
-     * @param newPlants A list to return newly born foxes.
+     * @param newPlants A list to return newly born plantes.
      */
     private void giveBirth(List<Plant> newPlants) {
-        // New foxes are born into adjacent locations.
+        // New plantes are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation(), false);
@@ -111,7 +104,6 @@ public abstract class Plant {
      * 
      * @return The number of births (may be zero).
      */
-
     private int breed() {
         BREEDING_PROBABILITY = 0.15;
 
@@ -130,23 +122,23 @@ public abstract class Plant {
     }
 
     /**
-     * A fox can breed if it has reached the breeding age.
+     * A plant can breed if it has reached the breeding age.
      */
     private boolean canBreed() {
         return age >= BREEDING_AGE;
     }
 
     /**
-     * Check whether the animal is alive or not.
+     * Check whether the plant is alive or not.
      * 
-     * @return true if the animal is still alive.
+     * @return true if the plant is still alive.
      */
     protected boolean isAlive() {
         return alive;
     }
 
     /**
-     * Indicate that the animal is no longer alive.
+     * Indicate that the plant is no longer alive.
      * It is removed from the field.
      */
     protected void setDead() {
@@ -159,18 +151,18 @@ public abstract class Plant {
     }
 
     /**
-     * Return the animal's location.
+     * Return the plant's location.
      * 
-     * @return The animal's location.
+     * @return The plant's location.
      */
     protected Location getLocation() {
         return location;
     }
 
     /**
-     * Place the animal at the new location in the given field.
+     * Place the plant at the new location in the given field.
      * 
-     * @param newLocation The animal's new location.
+     * @param newLocation The plant's new location.
      */
     protected void setLocation(Location newLocation) {
         if (location != null) {
@@ -181,9 +173,9 @@ public abstract class Plant {
     }
 
     /**
-     * Return the animal's field.
+     * Return the plant's field.
      * 
-     * @return The animal's field.
+     * @return The plant's field.
      */
     protected Field getField() {
         return field;

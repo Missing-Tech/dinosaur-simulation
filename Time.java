@@ -55,7 +55,6 @@ public class Time {
     }
 
     /**
-     * 
      * @return The minutes in String format
      */
     private String getMinutesInString() {
@@ -67,7 +66,6 @@ public class Time {
     }
 
     /**
-     * 
      * @return The hours in String format
      */
     private String getHoursInString() {
@@ -89,7 +87,6 @@ public class Time {
     }
 
     /**
-     * 
      * @return The current hour
      */
     public int getHour() {
@@ -105,6 +102,9 @@ public class Time {
         hours = 0;
     }
 
+    /**
+     * @return Whether it's currently night time
+     */
     public boolean isNight(){
         return (hours < 6 || hours > 22);
     }

@@ -1,11 +1,17 @@
 import java.util.Random;
 
+/**
+ * Predator class containing shared predator behaviour
+ * 
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 
+ */
 public abstract class Predator extends Animal {
 
-    // Characteristics shared by all foxes (class variables).
+    // Characteristics shared by all Predators (class variables).
 
     // The food value of a single rabbit. In effect, this is the
-    // number of steps a fox can go before it has to eat again.
+    // number of steps a Predator can go before it has to eat again.
     private static int PREY_FOOD_VALUE;
     // A shared random number generator to control breeding.
     private Random rand = Randomizer.getRandom();
@@ -37,13 +43,6 @@ public abstract class Predator extends Animal {
      */
     @Override
     protected abstract Location findFood(int SEARCH_RADIUS);
-
-    protected void incrementAge() {
-        age++;
-        if (age > MAX_AGE) {
-            setDead();
-        }
-    }
 
     /**
      * Provides a function for a subclass to create a copy of itself

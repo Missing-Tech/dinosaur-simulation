@@ -1,3 +1,9 @@
+/**
+ * Factory class to instantiate Prey objects
+ * 
+ * @author David J. Barnes and Michael Kölling and Joseph Grabski and Yukesh Shrestha
+ * @version 2022.03.01 
+ */
 public class PreyFactory {
    // use getShape method to get object of type shape
    public Prey getPrey(Animals preyType, Field field, Location location) {
