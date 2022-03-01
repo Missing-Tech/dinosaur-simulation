@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=TRex
+comment0.text=\r\n\ A\ simple\ model\ of\ a\ TRex.\r\n\ TRexs\ age,\ move,\ eat\ rabbits,\ and\ die.\r\n\ \r\n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\ and\ Joseph\ Grabski\ and\ Yukesh\ Shrestha\r\n\ @version\ 2022.03.01\ \r\n
+comment1.params=randomAge\ field\ location
+comment1.target=TRex(boolean,\ Field,\ Location)
+comment1.text=\r\n\ Create\ a\ TRex.\ A\ TRex\ can\ be\ created\ as\ a\ new\ born\ (age\ zero\r\n\ and\ not\ hungry)\ or\ with\ a\ random\ age\ and\ food\ level.\r\n\ \r\n\ @param\ randomAge\ If\ true,\ the\ TRex\ will\ have\ random\ age\ and\ hunger\ level.\r\n\ @param\ field\ \ \ \ \ The\ field\ currently\ occupied.\r\n\ @param\ location\ \ The\ location\ within\ the\ field.\r\n
+comment2.params=
+comment2.target=Location\ findFood()
+comment2.text=\r\n\ Function\ to\ search\ for\ food\ in\ the\ surrounding\ area\r\n\ @param\ SEARCH_RADIUS\ Radius\ around\ the\ animal\ to\ look\ for\ food\r\n\ @return\ Returns\ the\ location\ of\ nearby\ food\r\n
+comment3.params=loc
+comment3.target=TRex\ copyThis(Location)
+numComments=4

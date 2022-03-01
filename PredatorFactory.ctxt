@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=PredatorFactory
+comment0.text=\r\n\ Factory\ class\ to\ instantiate\ Predator\ objects\r\n\ \r\n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\ and\ Joseph\ Grabski\ and\ Yukesh\ Shrestha\r\n\ @version\ 2022.03.01\ \r\n
+comment1.params=predatorType\ field\ location
+comment1.target=Predator\ getPredator(Animals,\ Field,\ Location)
+numComments=2

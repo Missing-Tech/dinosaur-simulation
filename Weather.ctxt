@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=Weather
+comment0.text=\r\n\ Global\ Weather\ class\ to\ handle\ what\ weather\ it\ is\r\n\ \r\n\ @author\ Joseph\ Grabski\ and\ Yukesh\ Shrestha\r\n\ @version\ 2022.03.01\ \r\n
+comment1.params=
+comment1.target=Weather()
+comment2.params=
+comment2.target=Weather\ getInstance()
+comment2.text=\r\n\ Singleton\ pattern\r\n\ @return\ Returns\ the\ global\ instance\ of\ this\ object\r\n
+comment3.params=step
+comment3.target=void\ chooseWeather(int)
+comment3.text=\r\n\ Chooses\ weather\ randomly\r\n\ @param\ step\ Current\ step\ of\ the\ program\r\n
+comment4.params=
+comment4.target=WeatherType\ getWeather()
+numComments=5

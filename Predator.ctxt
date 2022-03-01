@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=Predator
+comment0.text=\r\n\ Predator\ class\ containing\ shared\ predator\ behaviour\r\n\ \r\n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\ and\ Joseph\ Grabski\ and\ Yukesh\ Shrestha\r\n\ @version\ 2022.03.01\ \r\n
+comment1.params=randomAge\ field\ location\ breedingAge\ maxAge\ breedingProb\ maxLitterSize\ preyFoodValue
+comment1.target=Predator(boolean,\ Field,\ Location,\ int,\ int,\ double,\ int,\ int)
+comment2.params=
+comment2.target=Location\ findFood()
+comment2.text=\r\n\ Look\ for\ prey\ adjacent\ to\ the\ current\ location.\r\n\ Only\ the\ first\ live\ prey\ is\ eaten.\r\n\ \r\n\ @return\ Where\ food\ was\ found,\ or\ null\ if\ it\ wasn't.\r\n
+comment3.params=loc
+comment3.target=Predator\ copyThis(Location)
+comment3.text=\r\n\ Provides\ a\ function\ for\ a\ subclass\ to\ create\ a\ copy\ of\ itself\r\n
+numComments=4

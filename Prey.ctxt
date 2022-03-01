@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.target=Prey
+comment0.text=\r\n\ Prey\ class\ containing\ shared\ prey\ behaviour\r\n\ \r\n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\ and\ Joseph\ Grabski\ and\ Yukesh\ Shrestha\r\n\ @version\ 2022.03.01\ \r\n
+comment1.params=randomAge\ field\ location\ breedingAge\ maxAge\ breedingProb\ maxLitterSize
+comment1.target=Prey(boolean,\ Field,\ Location,\ int,\ int,\ double,\ int)
+comment1.text=\r\n\ Create\ a\ new\ Prey.\ A\ Prey\ may\ be\ created\ with\ age\r\n\ zero\ (a\ new\ born)\ or\ with\ a\ random\ age.\r\n\ \r\n\ @param\ randomAge\ If\ true,\ the\ Prey\ will\ have\ a\ random\ age.\r\n\ @param\ field\ \ \ \ \ The\ field\ currently\ occupied.\r\n\ @param\ location\ \ The\ location\ within\ the\ field.\r\n
+comment2.params=loc
+comment2.target=Prey\ copyThis(Location)
+comment3.params=
+comment3.target=Location\ findFood()
+comment3.text=\r\n\ Look\ for\ Preys\ adjacent\ to\ the\ current\ location.\r\n\ Only\ the\ first\ live\ Prey\ is\ eaten.\r\n\ \r\n\ @return\ Where\ food\ was\ found,\ or\ null\ if\ it\ wasn't.\r\n
+comment4.params=
+comment4.target=boolean\ checkForPredators()
+comment4.text=\r\n\ Checks\ the\ nearby\ cells\ for\ predators\r\n\ @return\ Returns\ true\ if\ a\ predator\ is\ nearby\r\n
+numComments=5
